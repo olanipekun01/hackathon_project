@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Get information about achievers on going addmission process for 2024/2025 admissions, check out programmes offered at Achievers University">
+    <Meta name="keywords" content="achievers university, achievers university owo, admissions, application, screening, post utme">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <link rel="shortcut icon" href="achieverslogo.svg" type="image/x-icon"> {% endcomment %}
+    <title>AUO Student Biodata</title>
+    {% comment %} <link rel="stylesheet" href="./styles/index.css"> {% endcomment %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+    
+    </style>
+</head>
+<body>
+    <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
+        <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
+            <img src="./assets/achieverslogo.svg" class="w-[40px] lg:w-20 " alt="">
+            <div class="text-[#fff]">
+                <h1 class="text-xl lg:text-3xl text-red font-bold ">ACHIEVERS UNIVERSITY</h1>
+                <h5 class="text-sm lg:text-md">KM 1, Idasen- Ute Road, Owo, Ondo State</h5>
+            </div>
+        </a>
+
+        <div>
+            <div>
+                <a class="" href="#">Home</a>
+                <a href="#">Official Website</a>
+                <span>Hot Line: 08192882739292</span>
+            </div>
+
+            <div>
+                <span>Undergraduate Portal</span>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class='bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row justify-between'>
+            <div class>
+                <span>Student Control Center</span>
+            </div>
+
+            <div>
+                <span>Current Academic Session: 2023/2024 ||</span>
+                <span>Second Semester  ||</span>
+                <a href="#">Logout</a>
+            </div>
+            
+        </div>
+        <div class='mx-[60px]'>
+            <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
+                <span>Register student || </span>
+                <span>Register staff</span>
+            </div>
+            <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
+                {% comment %} <form class='flex flex-col gap-4' method='post' >
+                    {% csrf_token %}
+                    <h1>Student</h1>
+                    
+                    <input type="text" name="email" placeholder="email"/>
+                    <input type="text" name="surname" placeholder="surname" />
+                    <input type="text" name="otherNames" placeholder="Other Names" />
+                    <select name='level' class='font-bold border-[1px] border-[#000] px-2'>
+                        <option value="100">100 Level</option>
+                        <option value="200">200 Level</option>
+                        <option value="300">100 Level</option>
+                        <option value="400">200 Level</option>
+                        <option value="500">100 Level</option>
+                    </select>
+                    <input type="text" name="matricNumber" placeholder="matric number"/>
+                    <input type="date" name="dateOfBirth" placeholder="" />
+                     <select class='font-bold border-[1px] border-[#000] px-2'>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
+
+                    <input type="text" name="studentPhoneNumber" placeholder="phone number"/>
+
+                    <select class='font-bold border-[1px] border-[#000] px-2'>
+                        <option value="student">student</option>
+                    </select>
+
+                    
+
+                    <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Submit</button>
+                </form> {% endcomment %}
+
+
+                <form class='flex flex-col gap-4' method='post' action="/register">
+                    {% csrf_token %}
+                    <h1>Instructor</h1>
+
+                    {{ user_form.as_p }}
+
+                    <div id="student_form" style="display: none;">
+                        <h3>Student Details</h3>
+                        {{ student_form.as_p }}
+                    </div>
+
+                    <div id="instructor_form" style="display: none;">
+                        <h3>Instructor Details</h3>
+                        {{ instructor_form.as_p }}
+                    </div>
+
+                    <button type="submit">Sign Up</button>
+                    
+                    
+                </form>
+                <form class='flex flex-col gap-4' method='post' action="/register">
+                    {% csrf_token %}
+                    <div className="">
+                        <label>Email</label>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer class='mt-4 bg-[#077105] text-[#fff] text-[14px] py-4 text-center'>
+            Powered by Information & Communication Technology || Achievers University Owo &copy 2024, All Rights Reserved
+        </footer>
+    </main>
+
+    {% comment %} <input type="text" name="email" placeholder="email"/>
+                    <input type="text" name="name" placeholder="name" />
+                    <input type="text name="department" placeholder="department" />
+
+                    <input type="text" name="studentPhoneNumber" placeholder="phone number"/>
+
+                    <select class='font-bold border-[1px] border-[#000] px-2'>
+                        <option value="staff">staff</option>
+                    </select> {% endcomment %}
+
+                    
+
+                    {% comment %} <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Submit</button> {% endcomment %}
+
+    <script>
+        const userTypeField = document.querySelector('select[name="user_type"]');
+        const studentForm = document.getElementById('student_form');
+        const instructorForm = document.getElementById('instructor_form');
+
+        userTypeField.addEventListener('change', function() {
+            if (this.value === 'student') {
+                studentForm.style.display = 'block';
+                instructorForm.style.display = 'none';
+            } else if (this.value === 'instructor') {
+                studentForm.style.display = 'none';
+                instructorForm.style.display = 'block';
+            } else {
+                studentForm.style.display = 'none';
+                instructorForm.style.display = 'none';
+            }
+        });
+
+        // Initialize the correct form display
+        userTypeField.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>

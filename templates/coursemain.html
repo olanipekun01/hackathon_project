@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Get information about achievers on going addmission process for 2024/2025 admissions, check out programmes offered at Achievers University">
+    <Meta name="keywords" content="achievers university, achievers university owo, admissions, application, screening, post utme">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <link rel="shortcut icon" href="achieverslogo.svg" type="image/x-icon"> {% endcomment %}
+    <title>AUO Student Biodata</title>
+    {% comment %} <link rel="stylesheet" href="./styles/index.css"> {% endcomment %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        .table {
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+            font-weight: 400;
+            color: #545F7D;
+            min-width: 100%;
+            background-color: #ffff;
+            /* // border-radius: 10px;
+            // overflow: hidden; */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .thead {
+            background: #C3C4CE;
+            border-radius: 15px;
+        }
+
+        .theadtr {
+            text-align: left;
+            border-radius: 15px !important;
+        }
+
+        .theadtrth {
+            padding: 12px 15px;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .tbody {
+            background-color: #F4F4F8;
+        }
+
+        .tbodytr {
+            background-color: #F4F4F8;
+            border-top: 2px solid #ffff;
+        }
+
+        .tbodytrtd {
+            padding: 12px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            position: relative;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
+        <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
+            <img src="./assets/achieverslogo.svg" class="w-[40px] lg:w-20 " alt="">
+            <div class="text-[#fff]">
+                <h1 class="text-xl lg:text-3xl text-red font-bold ">ACHIEVERS UNIVERSITY</h1>
+                <h5 class="text-sm lg:text-md">KM 1, Idasen- Ute Road, Owo, Ondo State</h5>
+            </div>
+        </a>
+
+        <div>
+            <div>
+                <a class="" href="#">Home</a>
+                <a href="#">Official Website</a>
+                <span>Hot Line: 08192882739292</span>
+            </div>
+
+            <div>
+                <span>Undergraduate Portal</span>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class='bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row justify-between'>
+            <div class>
+                <span>Student Control Center</span>
+            </div>
+
+            <div>
+                <span>Current Academic Session: 2023/2024 ||</span>
+                <span>Second Semester  ||</span>
+                <a href="#">Logout</a>
+            </div>
+            
+        </div>
+        <div class='mx-[60px]'>
+            <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
+                <span>Course Registration || </span>
+                <span>{{student.surname}}, {{student.otherNames}} [{{student.matricNumber}}]</span>
+            </div>
+            <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
+                <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
+
+                <div class='mt-[10px] flex flex-col gap-5 mt-1 border-[1px] border-[#000] px-[10px] py-[10px]'>
+                    <div class='font-bold flex flex-col gap-2'>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>FULL NAME:</span>
+                            <span>{{student.surname}} {{student.otherNames}}</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>MATRIC NO:</span>
+                            <span>{{student.matricNumber}}</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>JAMB REGNO:</span>
+                            <span>95753342EC</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>DEPARTMENT:</span>
+                            <span>{{student.department}}</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>PROGRAMME:</span>
+                            <span>{{student.programme}}</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>SESSION:</span>
+                            <span>{{sess}}</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>SEMESTER:</span>
+                            <span>{{semes}}</span>
+                        </div>
+                        <div class="text-[15px] flex flex-row gap-[154px]">
+                            <span>CURRENT LEVEL:</span>
+                            <span>{{student.level}}</span>
+                        </div>
+                    </div>
+                    
+                    <form class='flex flex-col gap-4'>
+                        <table class='table'>
+                            <thead class='thead'>
+                                <tr class='theadtr'>
+                                    <th class='theadtrtd w-[78px] px-2'>Check</th>
+                                    <th class='theadtrtd w-[128px] px-2'>Course Code</th>
+                                    <th class='theadtrtd w-[388px] px-2'>Course Title</th>
+                                    <th class='theadtrtd w-[78px] px-2'>Unit</th>
+                                    <th class='theadtrtd w-[88px] px-2'>Status</th>
+                                    <th class='theadtrtd w-[128px] px-2'>Signature</th>
+                                </tr>
+                            </thead>
+                            <tbody class='tbody'>
+                                <tr class='tbodytr'>
+                                    <td class='tbodytrtd '><input type="checkbox" /></td>
+                                    <td class='tbodytrtd'>CHM399</td>
+                                    <td class='tbodytrtd'>Siwes</td>
+                                    <td class='tbodytrtd'>6</td>
+                                    <td class='tbodytrtd'>C</td>
+                                    <td class='tbodytrtd'></td>
+                                </tr>
+                                {% for course in courses %}
+                                <tr class='tbodytr'>
+                                    <td class='tbodytrtd '><input type="checkbox" /></td>
+                                    <td class='tbodytrtd'>{{course.courseCode}}</td>
+                                    <td class='tbodytrtd'>{{course.title}}</td>
+                                    <td class='tbodytrtd'>{{course.unit}}</td>
+                                    <td class='tbodytrtd'>C</td>
+                                    <td class='tbodytrtd'></td>
+                                </tr>
+                                {% endfor %}
+                                <tr class='tbodytr'>
+                                    <td class='tbodytrtd '></td>
+                                    <td class='tbodytrtd'></td>
+                                    <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Units :</td>
+                                    <td class='tbodytrtd text-[#000] font-bold'>24</td>
+                                    <td class='tbodytrtd'></td>
+                                    <td class='tbodytrtd'></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <footer class='mt-4 bg-[#077105] text-[#fff] text-[14px] py-4 text-center'>
+            Powered by Information & Communication Technology || Achievers University Owo &copy 2024, All Rights Reserved
+        </footer>
+    </main>
+</body>
+</html>

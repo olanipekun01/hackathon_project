@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Get information about achievers on going addmission process for 2024/2025 admissions, check out programmes offered at Achievers University">
+    <Meta name="keywords" content="achievers university, achievers university owo, admissions, application, screening, post utme">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <link rel="shortcut icon" href="achieverslogo.svg" type="image/x-icon"> {% endcomment %}
+    <title>AUO Student Biodata</title>
+    {% comment %} <link rel="stylesheet" href="./styles/index.css"> {% endcomment %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+    
+    </style>
+</head>
+<body>
+    <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
+        <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
+            <img src="./assets/achieverslogo.svg" class="w-[40px] lg:w-20 " alt="">
+            <div class="text-[#fff]">
+                <h1 class="text-xl lg:text-3xl text-red font-bold ">ACHIEVERS UNIVERSITY</h1>
+                <h5 class="text-sm lg:text-md">KM 1, Idasen- Ute Road, Owo, Ondo State</h5>
+            </div>
+        </a>
+
+        <div>
+            <div>
+                <a class="" href="#">Home</a>
+                <a href="#">Official Website</a>
+                <span>Hot Line: 08192882739292</span>
+            </div>
+
+            <div>
+                <span>Undergraduate Portal</span>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class='bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row justify-between'>
+            <div class>
+                <span>Student Control Center</span>
+            </div>
+
+            <div>
+                <span>Current Academic Session: 2023/2024 ||</span>
+                <span>Second Semester  ||</span>
+                <a href="#">Logout</a>
+            </div>
+            
+        </div>
+        <div class='mx-[60px]'>
+            <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
+                <span>Course Registration || </span>
+                <span>Oni, Aduragbemi Joshua [CHE/2019/1131]</span>
+            </div>
+            <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
+                <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
+
+                <div class='mt-[20px] flex flex-row gap-20 items-center'>
+                    <span class='font-bold'>SELECT ACADEMIC SESSION: </span>
+                    <form class='flex flex-row gap-4' method='post' action='/'>
+                        {% csrf_token %}
+                        <select class='font-bold border-[1px] border-[#000] px-2'>
+                            <option value="2024/2025">2024/2025</option>
+                        </select>
+
+                        <select class='font-bold border-[1px] border-[#000] px-2'>
+                            <option value="First">First</option>
+                        </select>
+
+                        <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Process</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <footer class='mt-4 bg-[#077105] text-[#fff] text-[14px] py-4 text-center'>
+            Powered by Information & Communication Technology || Achievers University Owo &copy 2024, All Rights Reserved
+        </footer>
+    </main>
+</body>
+</html>
