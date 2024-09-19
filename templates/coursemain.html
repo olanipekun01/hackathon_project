@@ -160,7 +160,7 @@
                                 </tr>
                                 {% for course in courses %}
                                 <tr class='tbodytr'>
-                                    <td class='tbodytrtd '><input type="checkbox" /></td>
+                                    <td class='tbodytrtd '><input type="checkbox" data-unit="3" class="course-checkbox"/></td>
                                     <td class='tbodytrtd'>{{course.courseCode}}</td>
                                     <td class='tbodytrtd'>{{course.title}}</td>
                                     <td class='tbodytrtd'>{{course.unit}}</td>
@@ -172,12 +172,14 @@
                                     <td class='tbodytrtd '></td>
                                     <td class='tbodytrtd'></td>
                                     <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Units :</td>
-                                    <td class='tbodytrtd text-[#000] font-bold'>24</td>
+                                    <td class='tbodytrtd text-[#000] font-bold' id="totalUnits">0</td>
                                     <td class='tbodytrtd'></td>
                                     <td class='tbodytrtd'></td>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <p id="warning" style="color: red; display: none;">You have exceeded the maximum allowed units!</p>
 
                         <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Submit</button>
                     </form>
@@ -189,5 +191,52 @@
             Powered by Information & Communication Technology || Achievers University Owo &copy 2024, All Rights Reserved
         </footer>
     </main>
+
+
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+        const maxUnits = 21;  // Set the maximum allowable course units
+        let totalUnits = 0;
+
+        const courseCheckboxes = document.querySelectorAll('.course-checkbox');
+        const totalUnitsDisplay = document.getElementById('totalUnits');
+        const warningMessage = document.getElementById('warning');
+
+        function updateUnits() {
+            totalUnits = 0;  // Reset the total units
+
+            // Loop through all checkboxes and sum the selected units
+            courseCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const courseUnit = parseInt(checkbox.getAttribute('data-unit'));
+                    totalUnits += courseUnit;
+                }
+            });
+
+            totalUnitsDisplay.textContent = totalUnits;
+            
+            if (totalUnits > maxUnits) {
+                warningMessage.style.display = 'block';
+                disableUnselectedCheckboxes(true);
+            } else {
+                warningMessage.style.display = 'none';
+                disableUnselectedCheckboxes(false);
+            }
+        }
+
+        function disableUnselectedCheckboxes(disable) {
+            courseCheckboxes.forEach(checkbox => {
+                if (!checkbox.checked) {
+                    checkbox.disabled = disable;
+                }
+            });
+        }
+
+        courseCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateUnits);
+        });
+    });
+    </script>
 </body>
 </html>
