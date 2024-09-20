@@ -56,7 +56,7 @@
             </div>
             <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
 
-                <form method="POST" action="{% url 'login' %}">
+                <form method="POST" action="/accounts/login/">
                     {% csrf_token %}
                     <label for="email">Email:</label>
                     <input type="email" name="email" required>

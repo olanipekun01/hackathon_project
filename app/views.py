@@ -80,7 +80,7 @@ def login_view(request):
             if user.check_password(password):
                 # Log the user in (assuming you're using Django's session framework)
                 login(request, user)
-                return redirect('dashboard')  # Redirect to the dashboard or homepage
+                return redirect('/')  # Redirect to the dashboard or homepage
             else:
                 error_message = "Invalid password."
         except User.DoesNotExist:
