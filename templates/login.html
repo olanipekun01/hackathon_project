@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Get information about achievers on going addmission process for 2024/2025 admissions, check out programmes offered at Achievers University">
+    <Meta name="keywords" content="achievers university, achievers university owo, admissions, application, screening, post utme">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <link rel="shortcut icon" href="achieverslogo.svg" type="image/x-icon"> {% endcomment %}
+    <title>AUO Student Biodata</title>
+    {% comment %} <link rel="stylesheet" href="./styles/index.css"> {% endcomment %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+    
+    </style>
+</head>
+<body>
+    <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
+        <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
+            <img src="./assets/achieverslogo.svg" class="w-[40px] lg:w-20 " alt="">
+            <div class="text-[#fff]">
+                <h1 class="text-xl lg:text-3xl text-red font-bold ">ACHIEVERS UNIVERSITY</h1>
+                <h5 class="text-sm lg:text-md">KM 1, Idasen- Ute Road, Owo, Ondo State</h5>
+            </div>
+        </a>
+
+        <div>
+            <div>
+                <a class="" href="#">Home</a>
+                <a href="#">Official Website</a>
+                <span>Hot Line: 08192882739292</span>
+            </div>
+
+            <div>
+                <span>Undergraduate Portal</span>
+            </div>
+
+        </div>
+    </header>
+    <main>
+        <div class='bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row justify-between'>
+            <div class>
+                <span>Student Control Center</span>
+            </div>
+
+            <div>
+                <span>Current Academic Session: 2023/2024 ||</span>
+                <span>Second Semester  ||</span>
+                <a href="#">Logout</a>
+            </div>
+            
+        </div>
+        <div class='mx-[60px]'>
+            <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
+                <span>Register student || </span>
+                <span>Register staff</span>
+            </div>
+            <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
+
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" required>
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" required>
+
+                    <button type="submit">Login</button>
+                    
+                    {% if error %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password, check_password
 import uuid
 
 
@@ -11,12 +12,22 @@ class User(models.Model):
     )
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.CharField(blank=True, null=True, max_length=300, unique=True)
+    email = models.EmailField(blank=True, null=True, max_length=300, unique=True)
+    password = models.CharField(max_length=255, blank=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
 
     def __str__(self):
         return self.email
+        
+    def set_password(self, raw_password):
+        """Hash and set the password."""
+        self.password = make_password(raw_password)
+        self.save()
+        
+    def check_password(self, raw_password):
+        """Check the password against the stored hashed password."""
+        return check_password(raw_password, self.password)
     
 
 class College(models.Model):
@@ -109,6 +120,8 @@ class Registration(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course)
+    session = models.CharField(blank=True, null=True, max_length=500)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE,  null=True, default=None)
     registration_date = models.DateField(auto_now_add=True)
     approved = models.BooleanField(blank = True, null=True)
     approved_by = models.ForeignKey(Instructor, on_delete=models.CASCADE)

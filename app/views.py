@@ -1,9 +1,20 @@
 from django.shortcuts import render,redirect, get_object_or_404
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from .forms import UserSignupForm, StudentSignupForm, InstructorSignupForm
 from .models import *
 import uuid
+import random
+import string
+
+def generate_password(length=8):
+    """Generate a random password."""
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for i in range(length))
+
 
 # Create your views here.
+@login_required
 def index(request):
     if request.method == 'POST':
         user = User.objects.get(email='otelo@au.com')
@@ -57,3 +68,40 @@ def register(request):
         'student_form': student_form,
         'instructor_form': instructor_form,
     })
+    
+    
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        try:
+            user = User.objects.get(email=email)
+            if user.check_password(password):
+                # Log the user in (assuming you're using Django's session framework)
+                login(request, user)
+                return redirect('dashboard')  # Redirect to the dashboard or homepage
+            else:
+                error_message = "Invalid password."
+        except User.DoesNotExist:
+            error_message = "User does not exist."
+
+        return render(request, 'login.html', {'error': error_message})
+
+    return render(request, 'login.html')
+
+def change_password_view(request):
+    if request.method == 'POST':
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        
+        user = request.user
+
+        if user.check_password(old_password):
+            user.set_password(new_password)
+            return redirect('password_changed_success')
+        else:
+            error_message = "Incorrect old password."
+            return render(request, 'change_password.html', {'error': error_message})
+
+    return render(request, 'change_password.html')
