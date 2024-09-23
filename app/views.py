@@ -7,6 +7,10 @@ import uuid
 import random
 import string
 
+from django.contrib.auth.models import User, auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 def generate_password(length=8):
     """Generate a random password."""
     characters = string.ascii_letters + string.digits
@@ -76,18 +80,26 @@ def login_view(request):
         password = request.POST['password']
 
         try:
-            user = User.objects.get(email=email)
-            if user.check_password(password):
-                # Log the user in (assuming you're using Django's session framework)
-                login(request, user)
-                return redirect('/')  # Redirect to the dashboard or homepage
+            user = auth.authenticate(username=email, password=password)
+            # user = User.objects.get(email=email)
+            # if user.check_password(password):
+            #     # Log the user in (assuming you're using Django's session framework)
+            #     # login(request, user)
+            #     return redirect('/')  # Redirect to the dashboard or homepage
+            # else:
+            #     error_message = "Invalid password."
+            if user is not None:
+                auth.login(request, user)
+                return redirect('/')
             else:
-                error_message = "Invalid password."
+                error_message = "User does not exist."
+                return redirect('/accounts/login')
         except User.DoesNotExist:
             error_message = "User does not exist."
+            return redirect('/accounts/login')
 
         return render(request, 'login.html', {'error': error_message})
-
+    
     return render(request, 'login.html')
 
 def change_password_view(request):

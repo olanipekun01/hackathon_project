@@ -1,11 +1,20 @@
 from django import forms
-from .models import User, Student, Instructor, Department
+from .models import CustomUser, Student, Instructor, Department
+from django.contrib.auth.forms import UserCreationForm
+
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = "__all__"
+
 
 class UserSignupForm(forms.ModelForm):
-    user_type = forms.ChoiceField(choices=User.USER_TYPE_CHOICES)
+    user_type = forms.ChoiceField(choices=CustomUser.USER_TYPE_CHOICES)
     
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['email', 'user_type']
 
 

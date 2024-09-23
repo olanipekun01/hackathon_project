@@ -1,20 +1,20 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser
 import uuid
 
 
 
 
-class User(models.Model):
+class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
         ('student', 'Student'),
         ('instructor', 'Instructor'),
     )
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(blank=True, null=True, max_length=300, unique=True)
-    password = models.CharField(max_length=255, blank=True, null=True)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    # date_joined = models.DateTimeField(auto_now_add=True)
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
 
     def __str__(self):
@@ -55,7 +55,7 @@ class Programme(models.Model):
 
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     otherNames = models.CharField(blank=True, null=True, max_length=80)
     surname = models.CharField(blank=True, null=True, max_length=80)
     level = models.CharField(blank=True, null=True, max_length=80)
@@ -108,7 +108,7 @@ class Course(models.Model):
         return f"{self.courseCode} - {self.title}"
 
 class Instructor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(blank=True, null=True, max_length=500)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     phoneNumber = models.CharField(blank=True, null=True, max_length=15)
