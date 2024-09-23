@@ -137,7 +137,8 @@
                         </div>
                     </div>
                     
-                    <form class='flex flex-col gap-4'>
+                    <form class='flex flex-col gap-4' method='post' action='/coursemain'>
+                        {% csrf_token %}
                         <table class='table'>
                             <thead class='thead'>
                                 <tr class='theadtr'>
@@ -160,7 +161,7 @@
                                 </tr>
                                 {% for course in courses %}
                                 <tr class='tbodytr'>
-                                    <td class='tbodytrtd '><input type="checkbox" data-unit="3" class="course-checkbox"/></td>
+                                    <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td>
                                     <td class='tbodytrtd'>{{course.courseCode}}</td>
                                     <td class='tbodytrtd'>{{course.title}}</td>
                                     <td class='tbodytrtd'>{{course.unit}}</td>

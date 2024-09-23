@@ -20,10 +20,19 @@ def generate_password(length=8):
 # Create your views here.
 @login_required
 def index(request):
-    if request.method == 'POST':
-        user = User.objects.get(email='otelo@au.com')
-        student = get_object_or_404(Student, user=user)
-        semester = get_object_or_404(Semester, name='first')
+    print('user', request.user)
+    if request.user.is_authenticated:
+        user = request.user
+        student = get_object_or_404(Student, user=user) 
+        print("student", student)
+    if request.method == "POST":
+        # user = CustomUser.objects.get(email='otelo@au.com')
+        session = request.POST["session"]
+        semester = request.POST["semester"]
+        print('session', session)
+        print('session', semester)
+        # student = get_object_or_404(Student, user=user) 
+        semester = get_object_or_404(Semester, name=semester)
         level = get_object_or_404(Level, name=student.level)
         courses = Course.objects.filter(
             level=level,
@@ -35,10 +44,27 @@ def index(request):
         print('courses', courses)
         return render(request, 'coursemain.html', {'courses': courses, 'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
 
 def courseMain(request):
+    if request.user.is_authenticated:
+        user = request.user
+        student = get_object_or_404(Student, user=user) 
+    if request.method == 'POST':
+        student
+        courses = request.POST.getlist('courses')  # Assuming departments are selected in a form
+        for id in courses:
+            print('course id', id)
+            # course = get_object_or_404(Course, id=id)
+            # Registration.dept.add(department)
+            registration = Registration.objects.create(student = student,
+                                             course=get_object_or_404(Course, id=id),
+                                             session = get_object_or_404(Session, year="2024/2025"),
+                                             semester = get_object_or_404(Semester, name="first"),
+                                            )
+            registration.save()
+        return render(request, 'coursemain.html')
     return render(request, 'coursemain.html')
 
 def register(request):

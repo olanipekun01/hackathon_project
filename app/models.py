@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
 
     def __str__(self):
-        return self.email
+        return self.username
         
     def set_password(self, raw_password):
         """Hash and set the password."""
@@ -29,6 +29,12 @@ class CustomUser(AbstractUser):
         """Check the password against the stored hashed password."""
         return check_password(raw_password, self.password)
     
+class Session(models.Model):
+    year = models.CharField(max_length=9)  # e.g., '2023/2024'
+    is_current = models.BooleanField(default=False)  # Marks current active session
+
+    def __str__(self):
+        return self.year
 
 class College(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -49,6 +55,7 @@ class Programme(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(blank=True, null=True, max_length=500)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    duration = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -65,6 +72,7 @@ class Student(models.Model):
     studentPhoneNumber = models.CharField(blank=True, null=True, max_length=15)
     department = models.ForeignKey(Department, on_delete=models.CASCADE,  null=True, default=None)
     programme = models.ForeignKey(Programme, on_delete=models.CASCADE,  null=True, default=None)
+    sessions = models.ManyToManyField(Session, through='Enrollment', null=True, default=None)
     # maritalStatus = models.CharField(blank=True, null=True, max_length=30)
     # nationality = models.CharField(blank=True, null=True, max_length=110)
     # stateOfOrigin = models.CharField(blank=True, null=True, max_length=110)
@@ -76,7 +84,15 @@ class Student(models.Model):
     
     def get_registered_courses(self):
         return self.registration_set.all()
-    
+
+class Enrollment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    enrolled_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.student} in {self.session}"
+        
 class Level(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(blank=True, null=True, max_length=80)
@@ -118,14 +134,17 @@ class Instructor(models.Model):
 
 class Registration(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    courses = models.ManyToManyField(Course)
-    session = models.CharField(blank=True, null=True, max_length=500)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=True, default=None)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=True, default=None)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True, default=None)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE,  null=True, default=None)
     registration_date = models.DateField(auto_now_add=True)
-    approved = models.BooleanField(blank = True, null=True)
-    approved_by = models.ForeignKey(Instructor, on_delete=models.CASCADE)
-    date_approved = models.DateField(blank=True, null=True)
+    passed = models.BooleanField(default=False)
+    carried_over = models.BooleanField(default=False)
+
+    # approved = models.BooleanField(blank = True, null=True)
+    # approved_by = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    # date_approved = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.student.surname} - {self.registration_date}"

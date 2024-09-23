@@ -43,8 +43,8 @@
             </div>
 
             <div>
-                <span>Current Academic Session: 2023/2024 ||</span>
-                <span>Second Semester  ||</span>
+                <span>Current Academic Session: {{sess}} ||</span>
+                <span>{{semes}} Semester  ||</span>
                 <a href="#">Logout</a>
             </div>
             
@@ -52,7 +52,7 @@
         <div class='mx-[60px]'>
             <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
                 <span>Course Registration || </span>
-                <span>Oni, Aduragbemi Joshua [CHE/2019/1131]</span>
+                <span>{{student.surname}}, {{student.otherNames}} [{{student.matricNumber}}]</span>
             </div>
             <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
                 <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
@@ -61,12 +61,13 @@
                     <span class='font-bold'>SELECT ACADEMIC SESSION: </span>
                     <form class='flex flex-row gap-4' method='post' action='/'>
                         {% csrf_token %}
-                        <select class='font-bold border-[1px] border-[#000] px-2'>
+                        <select name='session' class='font-bold border-[1px] border-[#000] px-2'>
                             <option value="2024/2025">2024/2025</option>
                         </select>
 
-                        <select class='font-bold border-[1px] border-[#000] px-2'>
-                            <option value="First">First</option>
+                        <select name='semester' class='font-bold border-[1px] border-[#000] px-2'>
+                            <option value="first">First</option>
+                            <option value="second">Second</option>
                         </select>
 
                         <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Process</button>
