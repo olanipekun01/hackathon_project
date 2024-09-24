@@ -31,6 +31,8 @@ def index(request):
         semester = request.POST["semester"]
         print('session', session)
         print('session', semester)
+        if Registration.objects.filter(student=student,session = get_object_or_404(Session, year=session),semester = get_object_or_404(Semester, name=semester),).exists():
+            return render(request, 'index.html', {'student':student, 'sess': '2024/2025', 'semes': 'first', 'exist': 'true'})
         # student = get_object_or_404(Student, user=user) 
         semester = get_object_or_404(Semester, name=semester)
         level = get_object_or_404(Level, name=student.level)
@@ -46,13 +48,13 @@ def index(request):
 
     return render(request, 'index.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
-
+@login_required
 def courseMain(request):
     if request.user.is_authenticated:
         user = request.user
         student = get_object_or_404(Student, user=user) 
     if request.method == 'POST':
-        student
+        # student
         courses = request.POST.getlist('courses')  # Assuming departments are selected in a form
         for id in courses:
             print('course id', id)
