@@ -159,6 +159,21 @@
                                     <td class='tbodytrtd'>C</td>
                                     <td class='tbodytrtd'></td>
                                 </tr>
+                                <input type="hidden" name="sess" value="{{ sess }}">
+                                <input type="hidden" name="semes" value="{{ semes }}">
+                                {% if carryover %}
+                                    {% for co in carryover %}
+                                        <tr class='tbodytr'>
+                                        
+                                            <td class='tbodytrtd '><input type="hidden" name="courses" value="{{ co.course.id }}"/><input type="checkbox" checked disabled data-unit="3" name='courses' value="{{co.course.id}}" class="course-checkbox"/></td>
+                                            <td class='tbodytrtd'>{{co.course.courseCode}}</td>
+                                            <td class='tbodytrtd'>{{co.course.title}}</td>
+                                            <td class='tbodytrtd'>{{co.course.unit}}</td>
+                                            <td class='tbodytrtd'>C</td>
+                                            <td class='tbodytrtd'></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
                                 {% for course in courses %}
                                 <tr class='tbodytr'>
                                     <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td>
@@ -237,6 +252,8 @@
         courseCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', updateUnits);
         });
+
+        updateUnits();
     });
     </script>
 </body>
