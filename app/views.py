@@ -11,6 +11,9 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+current_academic_session = "2025/2026"
+current_academic_semester = "second"
+
 def generate_password(length=8):
     """Generate a random password."""
     characters = string.ascii_letters + string.digits
@@ -42,16 +45,16 @@ def index(request):
         print("student", student)
     if request.method == "POST":
         # user = CustomUser.objects.get(email='otelo@au.com')
-        session = request.POST["session"]
-        semester = request.POST["semester"]
+        sess = request.POST["session"]
+        semes = request.POST["semester"]
         # print('session', session)
         # print('session', semester)
         stud = student
-        curr_session = get_object_or_404(Session, year=session)
-        semester = get_object_or_404(Semester, name=semester)
+        curr_session = get_object_or_404(Session, year=sess)
+        semester = get_object_or_404(Semester, name=semes)
         is_registered = is_student_registered_for_semester(stud, semester, curr_session)
         if is_registered:
-            return render(request, 'index.html', {'student':student, 'sess': '2024/2025', 'semes': 'first', 'exist': 'true'})
+            return render(request, 'index.html', {'student':student, 'sess': current_academic_session, 'semes': current_academic_semester, 'exist': 'true'})
         # student = get_object_or_404(Student, user=user) 
         semester = get_object_or_404(Semester, name=semester)
         level = get_object_or_404(Level, name=student.level)
@@ -60,7 +63,7 @@ def index(request):
             programmes=student.programme,
             semester=semester
         )
-        carryover_courses = Registration.objects.filter(student=student, passed=False, carried_over=True)
+        carryover_courses = Registration.objects.filter(student=student, semester=get_object_or_404(Semester, name=semes), passed=False, carried_over=True)
         # print('carryover courses',carryover_courses)
         # print('user', user.id)
         # print('student', student)
@@ -77,9 +80,9 @@ def courseMain(request):
     if request.method == 'POST':
         # student
         courses = request.POST.getlist('courses')  # Assuming departments are selected in a form
-        session = request.POST["sess"]
-        semester= request.POST["semes"]
-        print("sess", session, "semes", semester)
+        sess = request.POST["sess"]
+        semes= request.POST["semes"]
+        # print("sess", session, "semes", semester)
         for id in courses:
             print('course id', id)
             # course = get_object_or_404(Course, id=id)
@@ -92,13 +95,13 @@ def courseMain(request):
             # registration.save()
             course=get_object_or_404(Course, id=id),
             print('course name', course)
-            semester = get_object_or_404(Semester, name=semester)
+            semester = get_object_or_404(Semester, name=semes)
             
             course_exist = Registration.objects.filter(
                 student=student,
                 course=get_object_or_404(Course, id=id),
                 semester=semester
-            ).exists()
+            ).first()
 
             print('course exist', course_exist)
 
@@ -110,18 +113,19 @@ def courseMain(request):
                 # )
                 print('yes it exist')
                 # If the registration already exists, update the session and semester
-                course_exist.session = get_object_or_404(Session, year=session)
+                course_exist.session = get_object_or_404(Session, year=sess)
                 # registration.semester = semester
                 course_exist.save()
             else:
                 course_exist = Registration.objects.create(
                     student=student,
-                    course=course,
-                    session = get_object_or_404(Session, year=session), 
-                    semester = get_object_or_404(Semester, name=semester)
+                    course=get_object_or_404(Course, id=id),
+                    session = get_object_or_404(Session, year=sess), 
+                    semester = get_object_or_404(Semester, name=semes)
                 )
                 course_exist.save()
-        return render(request, 'coursemain.html')
+        return redirect('/')
+        
     return render(request, 'coursemain.html')
 
 def register(request):
