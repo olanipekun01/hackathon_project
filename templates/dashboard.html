@@ -17,7 +17,7 @@
 <body>
     <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
         <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
-            <img src="{% static './assets/achieverslogo.svg' %}" class="w-[40px] lg:w-20 " alt="">
+            <img src="{% static '/assets/achieverslogo.png' %}" class="w-[40px] lg:w-20 " alt="">
             <div class="text-[#fff]">
                 <h1 class="text-xl lg:text-3xl text-red font-bold ">ACHIEVERS UNIVERSITY</h1>
                 <h5 class="text-sm lg:text-md">KM 1, Idasen- Ute Road, Owo, Ondo State</h5>
@@ -25,14 +25,14 @@
         </a>
 
         <div>
-            <div>
-                <a class="" href="#">Home</a>
-                <a href="#">Official Website</a>
-                <span>Hot Line: 08192882739292</span>
+            <div class="text-[12px] text-[#ffffff] flex flex-row gap-1">
+                <a class="border-r border-white border-solid px-2 hover:text-[#000000] hover:underline" href="./index.html">Home</a>
+                <a href="https://www.achievers.edu.ng" class="border-r border-white border-solid px-2 hover:text-[#000000] hover:underline">Official Website</a>
+                <span class="cursor-pointer hover:text-[#000000] hover:underline">Hot Line: 08192882739292</span>
             </div>
 
-            <div>
-                <span>Undergraduate Portal</span>
+            <div class="mt-2">
+                <span class="text-[#caa16b] text-[20px] px-2">Undergraduate Portal</span>
             </div>
 
         </div>
@@ -50,38 +50,117 @@
             </div>
             
         </div>
-        <div class='mx-[60px]'>
-            <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
-                <span>Course Registration || </span>
-                <span>{{student.surname}}, {{student.otherNames}} [{{student.matricNumber}}]</span>
-            </div>
-            <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
-                <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
+        
+        <div class="">
+            <div class=""></div>
 
-                <div class='mt-[20px] flex flex-row gap-20 items-center'>
-                    <span class='font-bold'>SELECT ACADEMIC SESSION: </span>
-                    <form class='flex flex-row gap-4' method='post' action='/'>
-                        {% csrf_token %}
-                        <select name='session' class='font-bold border-[1px] border-[#000] px-2'>
-                             <option value="2025/2026">2025/2026</option>
-                            <option value="2024/2025">2024/2025</option>
-                           
-                        </select>
-
-                        <select name='semester' class='font-bold border-[1px] border-[#000] px-2'>
-                            <option value="first">First</option>
-                            <option value="second">Second</option>
-                        </select>
-
-                        <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Process</button>
-                    </form>
+            <div class='mx-[60px]'>
+                <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
+                    <span>.: Personal Information </span>
+                    
                 </div>
-                {% if exist %}
-                    <div>your already exist</div>
-                {% else %}
-                    <div>doesnt exist exist</div>
-                {% endif %}
+                <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
+                    <table class='mt-[10px]  mt-1 '>
+                        <tbody>
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">MATIRC NO :</td>
+                                <td class="text-[14px]">CHE/2019/1131</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">MATIRC NO :</td>
+                                <td class="text-[14px]">CHE/2019/1131</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">JAMB REG. NO :</td>
+                                <td class="text-[14px]">95753342EC</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">FACULTY :</td>
+                                <td class="text-[14px]">Science</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">DEPARTMENT :</td>
+                                <td class="text-[14px]">Chemistry</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">PROGRAMME :</td>
+                                <td class="text-[14px]">Industrial Chemistry [CHE]</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">PROGRAMME DEGREE:</td>
+                                <td class="text-[14px]">B.Sc. Industrial Chemistry</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">MODE OF ENTRY:</td>
+                                <td class="text-[14px]">UTME</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">ENTRY LEVEL:</td>
+                                <td class="text-[14px]">100</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">ENTRY YEAR :</td>
+                                <td class="text-[14px]">2019/2020</td>
+                            </tr>
+
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">CURRENT ACADEMIC LEVEL:</td>
+                                <td class="text-[14px]">400</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">CURRENT ACADEMIC YEAR:</td>
+                                <td class="text-[14px]">2024/2025</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">DATE OF BIRTH :</td>
+                                <td class="text-[14px]">19-01-2000</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">STATE :</td>
+                                <td class="text-[14px]">ONDO</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">LGA :</td>
+                                <td class="text-[14px]">AKOKO-NORTH-WEST</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">SEX :</td>
+                                <td class="text-[14px]">MALE</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">PHONE NO :</td>
+                                <td class="text-[14px]">07039300133</td>
+                            </tr>
+
+                            <tr class="flex flex-row  mb-3">
+                                <td class="text-[14px] text-red-700 w-[250px]">STUDENT E-MAIL ADDRESS :</td>
+                                <td class="text-[14px]">oni.aduragbemi.191131@fuoye.edu.ng</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    
+                </div>
             </div>
+
+            <div class=""></div>
+        
         </div>
 
         <footer class='mt-4 bg-[#077105] text-[#fff] text-[14px] py-4 text-center'>

@@ -35,6 +35,10 @@ def is_student_registered_for_semester(student, semester, session):
     ).exists()
 
 
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
 # Create your views here.
 @login_required
 def index(request):
