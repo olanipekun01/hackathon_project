@@ -51,10 +51,23 @@
             
         </div>
         
-        <div class="">
-            <div class=""></div>
+        <div class="flex flex-row gap-[10px]">
+            <div class="w-[250px] mt-[20px]">
+                <h3 class="bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[10px]">.: Control Menu</h3>
+                <div class="pt-4 px-2 flex flex-col gap-3">
+                    <div class="flex flex-row gap-2 align-center">
+                        <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
+                        <a href="" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Home</a>
+                    </div>
 
-            <div class='mx-[60px]'>
+                    <div class="flex flex-row gap-2 align-center">
+                        <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
+                        <a href="" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Course Registration</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class='w-[68%]'>
                 <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
                     <span>.: Personal Information </span>
                     
@@ -159,7 +172,11 @@
                 </div>
             </div>
 
-            <div class=""></div>
+            <div class="mt-[20px]">
+                <div class='border-solid border-[#064b25] border-[2px] rounded-[20px]'>
+                    <img class='w-[90px] rounded-[20px]' src="{% static './assets/profile_pic.jpg' %}" alt="" />
+                </div>
+            </div>
         
         </div>
 

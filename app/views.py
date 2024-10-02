@@ -132,6 +132,11 @@ def courseMain(request):
         
     return render(request, 'coursemain.html')
 
+@login_required
+def printCopy(request):
+    
+    return render(request, 'printCopy.html', {'student':'student', 'sess': '2024/2025', 'semes': 'first'})
+
 def register(request):
     if request.method == 'POST':
         user_form = UserSignupForm(request.POST)

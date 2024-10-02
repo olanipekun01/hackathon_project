@@ -156,7 +156,7 @@
                         <table class='table'>
                             <thead class='thead'>
                                 <tr class='theadtr'>
-                                    <th class='theadtrtd w-[78px] px-2'>Check</th>
+                                    {% comment %} <th class='theadtrtd w-[78px] px-2'>Check</th> {% endcomment %}
                                     <th class='theadtrtd w-[128px] px-2'>Course Code</th>
                                     <th class='theadtrtd w-[388px] px-2'>Course Title</th>
                                     <th class='theadtrtd w-[78px] px-2'>Unit</th>
@@ -179,7 +179,7 @@
                                     {% for co in carryover %}
                                         <tr class='tbodytr'>
                                         
-                                            <td class='tbodytrtd '><input type="hidden" name="courses" value="{{ co.course.id }}"/><input type="checkbox" checked disabled data-unit="3" name='courses' value="{{co.course.id}}" class="course-checkbox"/></td>
+                                            {% comment %} <td class='tbodytrtd '><input type="hidden" name="courses" value="{{ co.course.id }}"/><input type="checkbox" checked disabled data-unit="3" name='courses' value="{{co.course.id}}" class="course-checkbox"/></td> {% endcomment %}
                                             <td class='tbodytrtd'>{{co.course.courseCode}}</td>
                                             <td class='tbodytrtd'>{{co.course.title}}</td>
                                             <td class='tbodytrtd'>{{co.course.unit}}</td>
@@ -190,7 +190,7 @@
                                 {% endif %}
                                 {% for course in courses %}
                                 <tr class='tbodytr'>
-                                    <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td>
+                                    {% comment %} <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td> {% endcomment %}
                                     <td class='tbodytrtd'>{{course.courseCode}}</td>
                                     <td class='tbodytrtd'>{{course.title}}</td>
                                     <td class='tbodytrtd'>{{course.unit}}</td>
@@ -199,7 +199,7 @@
                                 </tr>
                                 {% endfor %}
                                 <tr class='tbodytr'>
-                                    <td class='tbodytrtd '></td>
+                                    {% comment %} <td class='tbodytrtd '></td> {% endcomment %}
                                     <td class='tbodytrtd'></td>
                                     <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Units :</td>
                                     <td class='tbodytrtd text-[#000] font-bold' id="totalUnits">0</td>
@@ -225,50 +225,7 @@
 
 
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-        const maxUnits = 21;  // Set the maximum allowable course units
-        let totalUnits = 0;
-
-        const courseCheckboxes = document.querySelectorAll('.course-checkbox');
-        const totalUnitsDisplay = document.getElementById('totalUnits');
-        const warningMessage = document.getElementById('warning');
-
-        function updateUnits() {
-            totalUnits = 0;  // Reset the total units
-
-            // Loop through all checkboxes and sum the selected units
-            courseCheckboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    const courseUnit = parseInt(checkbox.getAttribute('data-unit'));
-                    totalUnits += courseUnit;
-                }
-            });
-
-            totalUnitsDisplay.textContent = totalUnits;
-            
-            if (totalUnits > maxUnits) {
-                warningMessage.style.display = 'block';
-                disableUnselectedCheckboxes(true);
-            } else {
-                warningMessage.style.display = 'none';
-                disableUnselectedCheckboxes(false);
-            }
-        }
-
-        function disableUnselectedCheckboxes(disable) {
-            courseCheckboxes.forEach(checkbox => {
-                if (!checkbox.checked) {
-                    checkbox.disabled = disable;
-                }
-            });
-        }
-
-        courseCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateUnits);
-        });
-
-        updateUnits();
-    });
+       
     </script>
 </body>
 </html>
