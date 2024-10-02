@@ -134,8 +134,20 @@ def courseMain(request):
 
 @login_required
 def printCopy(request):
-    
-    return render(request, 'printCopy.html', {'student':'student', 'sess': '2024/2025', 'semes': 'first'})
+    if request.user.is_authenticated:
+        user = request.user
+        student = get_object_or_404(Student, user=user)
+    sess = "2024/2025"
+    semes = "first"
+
+    reg_courses = Registration.objects.filter(
+                student=student,
+                semester=get_object_or_404(Semester, name=semes),
+                session=get_object_or_404(Session, year=sess)
+            )
+
+
+    return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
 def register(request):
     if request.method == 'POST':
