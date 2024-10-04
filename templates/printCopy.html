@@ -190,10 +190,11 @@
                                 {% endif %}
                                 {% for course in courses %}
                                 <tr class='tbodytr'>
-                                    {% comment %} <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td> {% endcomment %}
-                                    <td class='tbodytrtd'>{{course.courseCode}}</td>
-                                    <td class='tbodytrtd'>{{course.title}}</td>
-                                    <td class='tbodytrtd'>{{course.unit}}</td>
+                                   <td class="hidden"> <input type="checkbox"   checked disabled data-unit="{{course.course.unit}}" name='courses' value="{{course.course.id}}" class="course-checkbox"/></td>
+                                    <td class='tbodytrtd'>{{course.course.courseCode}}</td>
+                                    <td class='tbodytrtd'>{{course.course.title}}</td>
+                                    {% comment %} <td class='tbodytrtd'>{{course.course.courseCode}}</td> {% endcomment %}
+                                    <td class='tbodytrtd'>{{course.course.unit}}</td>
                                     <td class='tbodytrtd'>C</td>
                                     <td class='tbodytrtd'></td>
                                 </tr>
@@ -225,7 +226,50 @@
 
 
     <script type="text/javascript">
-       
+       document.addEventListener('DOMContentLoaded', function () {
+        const maxUnits = 21;  // Set the maximum allowable course units
+        let totalUnits = 0;
+
+        const courseCheckboxes = document.querySelectorAll('.course-checkbox');
+        const totalUnitsDisplay = document.getElementById('totalUnits');
+        const warningMessage = document.getElementById('warning');
+
+        function updateUnits() {
+            totalUnits = 0;  // Reset the total units
+
+            // Loop through all checkboxes and sum the selected units
+            courseCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const courseUnit = parseInt(checkbox.getAttribute('data-unit'));
+                    totalUnits += courseUnit;
+                }
+            });
+
+            totalUnitsDisplay.textContent = totalUnits;
+            
+            if (totalUnits > maxUnits) {
+                warningMessage.style.display = 'block';
+                disableUnselectedCheckboxes(true);
+            } else {
+                warningMessage.style.display = 'none';
+                disableUnselectedCheckboxes(false);
+            }
+        }
+
+        function disableUnselectedCheckboxes(disable) {
+            courseCheckboxes.forEach(checkbox => {
+                if (!checkbox.checked) {
+                    checkbox.disabled = disable;
+                }
+            });
+        }
+
+        courseCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateUnits);
+        });
+
+        updateUnits();
+    });
     </script>
 </body>
 </html>

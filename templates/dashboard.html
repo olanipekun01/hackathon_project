@@ -57,12 +57,12 @@
                 <div class="pt-4 px-2 flex flex-col gap-3">
                     <div class="flex flex-row gap-2 align-center">
                         <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
-                        <a href="" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Home</a>
+                        <a href="{% url 'course:index' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Home</a>
                     </div>
 
                     <div class="flex flex-row gap-2 align-center">
                         <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
-                        <a href="" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Course Registration</a>
+                        <a href="{% url 'course:reg' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Course Registration</a>
                     </div>
                 </div>
             </div>

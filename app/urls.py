@@ -5,8 +5,8 @@ from django.views.generic import TemplateView
 app_name = "course"
 
 urlpatterns = [
-    path('', views.index, name="index"),
-    path('dashboard', views.dashboard, name="dashboard"),
+    path('reg', views.startReg, name="reg"),
+    path('', views.dashboard, name="index"),
     path('print', views.printCopy, name="print"),
     path('coursemain', views.courseMain, name="coursemain"),
     path('register', views.register, name="register"),

@@ -94,125 +94,142 @@
             </div>
             
         </div>
-        <div class='mx-[60px]'>
-            <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
-                <span>Course Registration || </span>
-                <span>{{student.surname}}, {{student.otherNames}} [{{student.matricNumber}}]</span>
+
+        <div class="flex flex-row gap-[10px]">
+            <div class="w-[250px] mt-[20px]">
+                <h3 class="bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[10px]">.: Control Menu</h3>
+                <div class="pt-4 px-2 flex flex-col gap-3">
+                    <div class="flex flex-row gap-2 align-center">
+                        <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
+                        <a href="{% url 'course:index' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Home</a>
+                    </div>
+
+                    <div class="flex flex-row gap-2 align-center">
+                        <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
+                        <a href="{% url 'course:reg' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Course Registration</a>
+                    </div>
+                </div>
             </div>
-            <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
-                <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
+            <div class='w-[75%]'>
+                <div class='mt-[20px] bg-[#000000] text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2'>
+                    <span>Course Registration || </span>
+                    <span>{{student.surname}}, {{student.otherNames}} [{{student.matricNumber}}]</span>
+                </div>
+                <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
+                    <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
 
-                <div class='mt-[10px] flex flex-col gap-5 mt-1 border-[1px] border-[#000] px-[10px] py-[10px]'>
-                     <div class="flex flex-row gap-10">
-                         <table class='w-[85%] mt-[10px]  mt-1 '>
-                            <tbody class="font-bold flex flex-col gap-2">
-                                    <td class="text-[15px] text-red-700 w-[250px]">FULL NAME:</td>
-                                    <td class="text-[15px]">{{student.surname}} {{student.otherNames}}</td>
-                                </tr>
+                    <div class='mt-[10px] flex flex-col gap-5 mt-1 border-[1px] border-[#000] px-[10px] py-[10px]'>
+                        <div class="flex flex-row gap-10">
+                            <table class='w-[85%] mt-[10px]  mt-1 '>
+                                <tbody class="font-bold flex flex-col gap-2">
+                                        <td class="text-[15px] text-red-700 w-[250px]">FULL NAME:</td>
+                                        <td class="text-[15px]">{{student.surname}} {{student.otherNames}}</td>
+                                    </tr>
 
-                                <tr class="flex flex-row  mb-3">
-                                    <td class="text-[15px] text-red-700 w-[250px]">MATRIC NO:</td>
-                                    <td class="text-[15px]">{{student.matricNumber}}</td>
-                                </tr>
+                                    <tr class="flex flex-row  mb-3">
+                                        <td class="text-[15px] text-red-700 w-[250px]">MATRIC NO:</td>
+                                        <td class="text-[15px]">{{student.matricNumber}}</td>
+                                    </tr>
 
-                                <tr class="flex flex-row  mb-3">
-                                    <td class="text-[15px] text-red-700 w-[250px]">JAMB REGNO:</td>
-                                    <td class="text-[15px]">95753342EC</td>
-                                </tr>
+                                    <tr class="flex flex-row  mb-3">
+                                        <td class="text-[15px] text-red-700 w-[250px]">JAMB REGNO:</td>
+                                        <td class="text-[15px]">95753342EC</td>
+                                    </tr>
 
-                                <tr class="flex flex-row  mb-3">
-                                    <td class="text-[15px] text-red-700 w-[250px]">DEPARTMENT:</td>
-                                    <td class="text-[15px]">{{student.department}}</td>
-                                </tr>
+                                    <tr class="flex flex-row  mb-3">
+                                        <td class="text-[15px] text-red-700 w-[250px]">DEPARTMENT:</td>
+                                        <td class="text-[15px]">{{student.department}}</td>
+                                    </tr>
 
-                                <tr class="flex flex-row  mb-3">
-                                    <td class="text-[15px] text-red-700 w-[250px]">PROGRAMME:</td>
-                                    <td class="text-[15px]">{{student.programme}}</td>
-                                </tr>
+                                    <tr class="flex flex-row  mb-3">
+                                        <td class="text-[15px] text-red-700 w-[250px]">PROGRAMME:</td>
+                                        <td class="text-[15px]">{{student.programme}}</td>
+                                    </tr>
 
-                                <tr class="flex flex-row  mb-3">
-                                    <td class="text-[15px] text-red-700 w-[250px]">SESSION:</td>
-                                    <td class="text-[15px]">{{sess}}</td>
-                                </tr>
+                                    <tr class="flex flex-row  mb-3">
+                                        <td class="text-[15px] text-red-700 w-[250px]">SESSION:</td>
+                                        <td class="text-[15px]">{{sess}}</td>
+                                    </tr>
 
-                                <tr class="flex flex-row  mb-3">
-                                    <td class="text-[15px] text-red-700 w-[250px]">CURRENT LEVEL:</td>
-                                    <td class="text-[15px]">{{student.level}}</td>
-                                </tr>
+                                    <tr class="flex flex-row  mb-3">
+                                        <td class="text-[15px] text-red-700 w-[250px]">CURRENT LEVEL:</td>
+                                        <td class="text-[15px]">{{student.level}}</td>
+                                    </tr>
 
-                                
-                            </tbody>
-                        </table>
+                                    
+                                </tbody>
+                            </table>
 
-                        <div class="mt-[10px]">
-                            <div class='border-solid border-[#064b25] border-[2px] rounded-[20px]'>
-                                <img class='w-[90px] rounded-[20px]' src="{% static './assets/profile_pic.jpg' %}" alt="" />
+                            <div class="mt-[10px]">
+                                <div class='border-solid border-[#064b25] border-[2px] rounded-[20px]'>
+                                    <img class='w-[90px] rounded-[20px]' src="{% static './assets/profile_pic.jpg' %}" alt="" />
+                                </div>
                             </div>
                         </div>
-                     </div>
-                    
-                    <form class='flex flex-col gap-4' method='post' action='/coursemain'>
-                        {% csrf_token %}
-                        <table class='table'>
-                            <thead class='thead'>
-                                <tr class='theadtr'>
-                                    <th class='theadtrtd w-[78px] px-2'>Check</th>
-                                    <th class='theadtrtd w-[128px] px-2'>Course Code</th>
-                                    <th class='theadtrtd w-[388px] px-2'>Course Title</th>
-                                    <th class='theadtrtd w-[78px] px-2'>Unit</th>
-                                    <th class='theadtrtd w-[88px] px-2'>Status</th>
-                                    <th class='theadtrtd w-[128px] px-2'>Signature</th>
-                                </tr>
-                            </thead>
-                            <tbody class='tbody'>
-                                {% comment %} <tr class='tbodytr'>
-                                    <td class='tbodytrtd '><input type="checkbox" /></td>
-                                    <td class='tbodytrtd'>CHM399</td>
-                                    <td class='tbodytrtd'>Siwes</td>
-                                    <td class='tbodytrtd'>6</td>
-                                    <td class='tbodytrtd'>C</td>
-                                    <td class='tbodytrtd'></td>
-                                </tr> {% endcomment %}
-                                <input type="hidden" name="sess" value="{{ sess }}">
-                                <input type="hidden" name="semes" value="{{ semes }}">
-                                {% if carryover %}
-                                    {% for co in carryover %}
-                                        <tr class='tbodytr'>
-                                        
-                                            <td class='tbodytrtd '><input type="hidden" name="courses" value="{{ co.course.id }}"/><input type="checkbox" checked disabled data-unit="3" name='courses' value="{{co.course.id}}" class="course-checkbox"/></td>
-                                            <td class='tbodytrtd'>{{co.course.courseCode}}</td>
-                                            <td class='tbodytrtd'>{{co.course.title}}</td>
-                                            <td class='tbodytrtd'>{{co.course.unit}}</td>
-                                            <td class='tbodytrtd'>C</td>
-                                            <td class='tbodytrtd'></td>
-                                        </tr>
+                        
+                        <form class='flex flex-col gap-4' method='post' action='/coursemain'>
+                            {% csrf_token %}
+                            <table class='table'>
+                                <thead class='thead'>
+                                    <tr class='theadtr'>
+                                        <th class='theadtrtd w-[78px] px-2'>Check</th>
+                                        <th class='theadtrtd w-[128px] px-2'>Course Code</th>
+                                        <th class='theadtrtd w-[388px] px-2'>Course Title</th>
+                                        <th class='theadtrtd w-[78px] px-2'>Unit</th>
+                                        <th class='theadtrtd w-[88px] px-2'>Status</th>
+                                        <th class='theadtrtd w-[128px] px-2'>Signature</th>
+                                    </tr>
+                                </thead>
+                                <tbody class='tbody'>
+                                    {% comment %} <tr class='tbodytr'>
+                                        <td class='tbodytrtd '><input type="checkbox" /></td>
+                                        <td class='tbodytrtd'>CHM399</td>
+                                        <td class='tbodytrtd'>Siwes</td>
+                                        <td class='tbodytrtd'>6</td>
+                                        <td class='tbodytrtd'>C</td>
+                                        <td class='tbodytrtd'></td>
+                                    </tr> {% endcomment %}
+                                    <input type="hidden" name="sess" value="{{ sess }}">
+                                    <input type="hidden" name="semes" value="{{ semes }}">
+                                    {% if carryover %}
+                                        {% for co in carryover %}
+                                            <tr class='tbodytr'>
+                                            
+                                                <td class='tbodytrtd '><input type="hidden" name="courses" value="{{ co.course.id }}"/><input type="checkbox" checked disabled data-unit="3" name='courses' value="{{co.course.id}}" class="course-checkbox"/></td>
+                                                <td class='tbodytrtd'>{{co.course.courseCode}}</td>
+                                                <td class='tbodytrtd'>{{co.course.title}}</td>
+                                                <td class='tbodytrtd'>{{co.course.unit}}</td>
+                                                <td class='tbodytrtd'>C</td>
+                                                <td class='tbodytrtd'></td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% for course in courses %}
+                                    <tr class='tbodytr'>
+                                        <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td>
+                                        <td class='tbodytrtd'>{{course.courseCode}}</td>
+                                        <td class='tbodytrtd'>{{course.title}}</td>
+                                        <td class='tbodytrtd'>{{course.unit}}</td>
+                                        <td class='tbodytrtd'>C</td>
+                                        <td class='tbodytrtd'></td>
+                                    </tr>
                                     {% endfor %}
-                                {% endif %}
-                                {% for course in courses %}
-                                <tr class='tbodytr'>
-                                    <td class='tbodytrtd '><input type="checkbox" data-unit="3" name='courses' value="{{course.id}}" class="course-checkbox"/></td>
-                                    <td class='tbodytrtd'>{{course.courseCode}}</td>
-                                    <td class='tbodytrtd'>{{course.title}}</td>
-                                    <td class='tbodytrtd'>{{course.unit}}</td>
-                                    <td class='tbodytrtd'>C</td>
-                                    <td class='tbodytrtd'></td>
-                                </tr>
-                                {% endfor %}
-                                <tr class='tbodytr'>
-                                    <td class='tbodytrtd '></td>
-                                    <td class='tbodytrtd'></td>
-                                    <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Units :</td>
-                                    <td class='tbodytrtd text-[#000] font-bold' id="totalUnits">0</td>
-                                    <td class='tbodytrtd'></td>
-                                    <td class='tbodytrtd'></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <tr class='tbodytr'>
+                                        <td class='tbodytrtd '></td>
+                                        <td class='tbodytrtd'></td>
+                                        <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Units :</td>
+                                        <td class='tbodytrtd text-[#000] font-bold' id="totalUnits">0</td>
+                                        <td class='tbodytrtd'></td>
+                                        <td class='tbodytrtd'></td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                        <p id="warning" style="color: red; display: none;">You have exceeded the maximum allowed units!</p>
+                            <p id="warning" style="color: red; display: none;">You have exceeded the maximum allowed units!</p>
 
-                        <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Submit</button>
-                    </form>
+                            <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
