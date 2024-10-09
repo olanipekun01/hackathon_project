@@ -73,6 +73,7 @@ class Student(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE,  null=True, default=None)
     programme = models.ForeignKey(Programme, on_delete=models.CASCADE,  null=True, default=None)
     sessions = models.ManyToManyField(Session, through='Enrollment', null=True, default=None)
+    # bloodgroup, genotype, jambreg,email, 
     # maritalStatus = models.CharField(blank=True, null=True, max_length=30)
     # nationality = models.CharField(blank=True, null=True, max_length=110)
     # stateOfOrigin = models.CharField(blank=True, null=True, max_length=110)

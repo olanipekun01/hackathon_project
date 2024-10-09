@@ -1,15 +1,27 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .forms import UserSignupForm, StudentSignupForm, InstructorSignupForm
 from .models import *
 import uuid
 import random
 import string
 
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+# from weasyprint import HTML
+
+# from io import BytesIO
+# from django.template.loader import get_template
+# from xhtml2pdf import pisa
+
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+import pdfkit
+config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\AUO\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
 
 current_academic_session = "2025/2026"
 current_academic_semester = "second"
@@ -34,6 +46,14 @@ def is_student_registered_for_semester(student, semester, session):
         session=session
     ).exists()
 
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
 
 @login_required
 def dashboard(request):
@@ -58,7 +78,7 @@ def startReg(request):
         semester = get_object_or_404(Semester, name=semes)
         is_registered = is_student_registered_for_semester(stud, semester, curr_session)
         if is_registered:
-            return render(request, 'index.html', {'student':student, 'sess': current_academic_session, 'semes': current_academic_semester, 'exist': 'true'})
+            return render(request, 'reg.html', {'student':student, 'sess': current_academic_session, 'semes': current_academic_semester, 'exist': 'true'})
         # student = get_object_or_404(Student, user=user) 
         semester = get_object_or_404(Semester, name=semester)
         level = get_object_or_404(Level, name=student.level)
@@ -74,7 +94,7 @@ def startReg(request):
         # print('courses', courses)
         return render(request, 'coursemain.html', {'courses': courses, 'student':student, 'sess': curr_session, 'semes': semester,'carryover': carryover_courses })
 
-    return render(request, 'index.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
+    return render(request, 'reg.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
 @login_required
 def courseMain(request):
@@ -148,6 +168,22 @@ def printCopy(request):
 
 
     return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': '2024/2025', 'semes': 'first'})
+
+def generatePDF(request):
+    # pdf = pdfkit.from_url(request.build_absolute_uri('/print'), False, configuration=config)
+    # response = HttpResponse(pdf, content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="file_name.pdf"'
+
+    # html_string = render_to_string('template.html', {'data': 'Some context data'})
+    # html = HTML(string=html_string)
+    # pdf = html.write_pdf()
+
+    # response = HttpResponse(pdf, content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+
+    pdf = render_to_pdf('printCopy.html')
+
+    return HttpResponse(pdf, content_type='application/pdf')
 
 def register(request):
     if request.method == 'POST':

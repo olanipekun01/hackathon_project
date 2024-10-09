@@ -6,6 +6,7 @@ app_name = "course"
 
 urlpatterns = [
     path('reg', views.startReg, name="reg"),
+    path('pdf', views.generatePDF, name='pdf'),
     path('', views.dashboard, name="index"),
     path('print', views.printCopy, name="print"),
     path('coursemain', views.courseMain, name="coursemain"),
