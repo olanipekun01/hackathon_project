@@ -67,12 +67,17 @@ class Student(models.Model):
     surname = models.CharField(blank=True, null=True, max_length=80)
     level = models.CharField(blank=True, null=True, max_length=80)
     matricNumber = models.CharField(blank=True, null=True, max_length=30)
+    jambNumber = models.CharField(blank=True, null=True, max_length=30)
     dateOfBirth = models.DateField()
     gender = models.CharField(blank=True, null=True, max_length=15)
     studentPhoneNumber = models.CharField(blank=True, null=True, max_length=15)
     department = models.ForeignKey(Department, on_delete=models.CASCADE,  null=True, default=None)
     programme = models.ForeignKey(Programme, on_delete=models.CASCADE,  null=True, default=None)
     sessions = models.ManyToManyField(Session, through='Enrollment', null=True, default=None)
+    primaryEmail = models.CharField(blank=True, null=True, max_length=120)
+    studentEmail = models.CharField(blank=True, null=True, max_length=120)
+    bloodGroup = models.CharField(blank=True, null=True, max_length=20)
+    genoType = models.CharField(blank=True, null=True, max_length=20)
     # bloodgroup, genotype, jambreg,email, 
     # maritalStatus = models.CharField(blank=True, null=True, max_length=30)
     # nationality = models.CharField(blank=True, null=True, max_length=110)
@@ -81,7 +86,8 @@ class Student(models.Model):
     
     # passport = models.ImageField(upload_to="images/")
     def __str__(self):
-        return self.surname
+        return f"{self.surname} - {self.matricNumber}"
+
     
     def get_registered_courses(self):
         return self.registration_set.all()
