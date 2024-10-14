@@ -256,6 +256,9 @@ def is_student_registered_for_semester(student, semester, session):
 
 @login_required
 def dashboard(request):
+    if request.user.is_authenticated:
+        user = request.user
+        student = get_object_or_404(Student, user=user) 
     return render(request, 'dashboard.html')
 
 # Create your views here.
