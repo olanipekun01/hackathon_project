@@ -2,6 +2,9 @@ from django import forms
 from .models import CustomUser, Student, Instructor, Department
 from django.contrib.auth.forms import UserCreationForm
 
+from django import forms
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+
 
 
 class CustomUserCreationForm(UserCreationForm):

@@ -23,6 +23,21 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth import get_user_model
+
+UserModel = get_user_model()
+
 # import pdfkit
 # config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\AUO\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
 
@@ -223,11 +238,7 @@ def generate_pdf(reg_course, student, session, semester):
     pdf.cell(180, 2, f'Note:This form should be printed and returned to the Examination Officer at least Four weeks before the commencement of the examinations.', align='C', ln=True)
     pdf.cell(180, 2, f'No Candidate shall be allowed to write any \nexamination in any course unless he/she has satisfied appropriate registration & finanacial regulations.', align='C')
 
-    pdf.output('fpdfdemo.pdf', 'F')
-    
-    response = HttpResponse(pdf.output(dest='S').encode('latin1'), content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="fpdfdemo.pdf"'
-    return response
+    return pdf
     # for i in range (1, 41):
     #     pdf.cell(0, 10, f'This is line {i} :D', ln=True)
     # pdf.output('fpdfdemo.pdf', 'F')
@@ -281,10 +292,10 @@ def startReg(request):
         semester = get_object_or_404(Semester, name=semes)
         is_registered = is_student_registered_for_semester(stud, semester, curr_session)
         if is_registered:
-            return render(request, 'reg.html', {'student':student, 'sess': current_academic_session, 'semes': current_academic_semester, 'exist': 'true'})
+            return render(request, 'reg.html', {'student':student, 'sess': current_academic_session, 'semes': current_academic_semester, 'exist': 'true', 'semester_passed': semester, "session_passed": curr_session})
         # student = get_object_or_404(Student, user=user) 
         semester = get_object_or_404(Semester, name=semester)
-        level = get_object_or_404(Level, name=student.level)
+        level = get_object_or_404(Level, name=student.currentLevel)
         courses = Course.objects.filter(
             level=level,
             programmes=student.programme,
@@ -360,23 +371,31 @@ def printCopy(request):
     if request.user.is_authenticated:
         user = request.user
         student = get_object_or_404(Student, user=user)
-    sess = "2024/2025"
-    semes = "first"
+    # sess = "2024/2025"
+    # semes = "first"
+    sem=request.GET.get('key')
+    sess=request.GET.get('keyII')
 
     reg_courses = Registration.objects.filter(
                 student=student,
-                semester=get_object_or_404(Semester, name=semes),
+                semester=get_object_or_404(Semester, name=sem),
                 session=get_object_or_404(Session, year=sess)
             )
     
     if request.method == 'POST':
         reg_courses = Registration.objects.filter(
                 student=student,
-                semester=get_object_or_404(Semester, name=semes),
+                semester=get_object_or_404(Semester, name=sem),
                 session=get_object_or_404(Session, year=sess)
             )
         
-        generate_pdf(reg_courses, student, '2024/2025', 'first')
+        gen = generate_pdf(reg_courses, student, '2024/2025', 'first')
+
+        gen.output('fpdfdemo.pdf', 'F')
+    
+        response = HttpResponse(gen.output(dest='S').encode('latin1'), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="fpdfdemo.pdf"'
+        return response
 
 
     return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': '2024/2025', 'semes': 'first'})
@@ -448,28 +467,84 @@ def login_view(request):
                 auth.login(request, user)
                 return redirect('/')
             else:
-                error_message = "User does not exist."
-                return redirect('/accounts/login')
+                error_message = "Invalid credentials!"
+                # return redirect('/accounts/login')
+                return render(request, 'login.html', {'error': error_message})
         except User.DoesNotExist:
-            error_message = "User does not exist."
-            return redirect('/accounts/login')
+            error_message = "Invalid credentials!"
+            # return redirect('/accounts/login')
+            return render(request, 'login.html', {'error': error_message})
 
         return render(request, 'login.html', {'error': error_message})
     
     return render(request, 'login.html')
 
-def change_password_view(request):
+def changePassword(request):
     if request.method == 'POST':
-        old_password = request.POST['old_password']
-        new_password = request.POST['new_password']
+        old_password = request.POST['oldpassword']
+        new_password = request.POST['newpassword']
+        confirm_password = request.POST['newpassword']
+
+        if new_password != confirm_password:
+            return render(request, 'changepassword.html', {'error': "Use same password"})
         
         user = request.user
 
         if user.check_password(old_password):
-            user.set_password(new_password)
-            return redirect('password_changed_success')
+            print('im here')
+            # user.set_password(new_password)
+            return render(request, 'changepassword.html', {'success': "Password Change Successful!"})
         else:
             error_message = "Incorrect old password."
-            return render(request, 'change_password.html', {'error': error_message})
+            return render(request, 'changepassword.html', {'error': error_message})
 
-    return render(request, 'change_password.html')
+    return render(request, 'changepassword.html')
+
+
+def password_reset_request(request):
+    if request.method == "POST":
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            associated_user = Student.objects.filter(primaryEmail=email).first()
+            if associated_user:
+                subject = "Password Reset Requested"
+                email_template_name = "password_reset_email.html"
+                c = {
+                    "email": associated_user.email,
+                    'domain': get_current_site(request).domain,
+                    'site_name': 'http://127.0.0.1:8000/',
+                    "uid": urlsafe_base64_encode(force_bytes(associated_user.pk)),
+                    "user": associated_user,
+                    'token': default_token_generator.make_token(associated_user),
+                    'protocol': 'http',
+                }
+                email = render_to_string(email_template_name, c)
+                try:
+                    send_mail(subject, email, settings.DEFAULT_FROM_EMAIL, [associated_user.email], fail_silently=False)
+                except:
+                    return redirect("/password_reset/done/")
+    else:
+        form = PasswordResetForm()
+    return render(request, "password_reset_form.html", {"form": form})
+
+# Password reset confirm view (handles the link in the email)
+def password_reset_confirm(request, uidb64=None, token=None):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = UserModel.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == "POST":
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("/reset/done/")
+        else:
+            form = SetPasswordForm(user)
+    else:
+        form = None
+
+    return render(request, 'password_reset_confirm.html', {'form': form})

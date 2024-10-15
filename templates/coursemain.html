@@ -108,6 +108,11 @@
                         <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
                         <a href="{% url 'course:reg' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Course Registration</a>
                     </div>
+
+                    <div class="flex flex-row gap-2 align-center">
+                        <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
+                        <a href="{% url 'course:changepassword' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Change Password</a>
+                    </div>
                 </div>
             </div>
             <div class='w-[75%]'>
@@ -127,14 +132,11 @@
                                     </tr>
 
                                     <tr class="flex flex-row  mb-3">
-                                        <td class="text-[15px] text-red-700 w-[250px]">MATRIC NO:</td>
-                                        <td class="text-[15px]">{{student.matricNumber}}</td>
+                                        <td class="text-[15px] text-red-700 w-[250px]">MATRIC NO / JAMB REG. No:</td>
+                                        <td class="text-[15px]">{{student.matricNumber}} [{{student.jambNumber}}]</td>
                                     </tr>
 
-                                    <tr class="flex flex-row  mb-3">
-                                        <td class="text-[15px] text-red-700 w-[250px]">JAMB REGNO:</td>
-                                        <td class="text-[15px]">95753342EC</td>
-                                    </tr>
+                                    
 
                                     <tr class="flex flex-row  mb-3">
                                         <td class="text-[15px] text-red-700 w-[250px]">DEPARTMENT:</td>

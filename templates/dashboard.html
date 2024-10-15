@@ -64,6 +64,11 @@
                         <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
                         <a href="{% url 'course:reg' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Course Registration</a>
                     </div>
+
+                    <div class="flex flex-row gap-2 align-center">
+                        <img src="{% static './assets/bxs-right-arrow.svg' %}" alt="">
+                        <a href="{% url 'course:changepassword' %}" class="px-3 bg-[#064b25] text-[#ffffff] py-2 w-[100%] text-[13px] hover:bg-[#ffffff] hover:border-solid hover:border-[#064b25] hover:border-[2px] hover:text-[#064b25]">Change Password</a>
+                    </div>
                 </div>
             </div>
 
@@ -76,8 +81,8 @@
                     <table class='mt-[10px]  mt-1 '>
                         <tbody>
                             <tr class="flex flex-row  mb-3">
-                                <td class="text-[14px] text-red-700 w-[250px]">MATIRC NO :</td>
-                                <td class="text-[14px]">{{student.matricNumber}}</td>
+                                <td class="text-[14px] text-red-700 w-[250px]">MATIRC NO / JAMB REG. NO :</td>
+                                <td class="text-[14px]">{{student.matricNumber}} [{{student.jambNumber}}]</td>
                             </tr>
 
                             <!-- <tr class="flex flex-row  mb-3">
@@ -85,14 +90,10 @@
                                 <td class="text-[14px]">CHE/2019/1131</td>
                             </tr> -->
 
-                            <tr class="flex flex-row  mb-3">
-                                <td class="text-[14px] text-red-700 w-[250px]">JAMB REG. NO :</td>
-                                <td class="text-[14px]">95753342EC</td>
-                            </tr>
 
                             <tr class="flex flex-row  mb-3">
-                                <td class="text-[14px] text-red-700 w-[250px]">FACULTY :</td>
-                                <td class="text-[14px]">Science</td>
+                                <td class="text-[14px] text-red-700 w-[250px]">College :</td>
+                                <td class="text-[14px]">{{student.college}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
@@ -107,63 +108,63 @@
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">PROGRAMME DEGREE:</td>
-                                <td class="text-[14px]">B.Sc. {{student.programme}}</td>
+                                <td class="text-[14px]">{{student.degree}} {{student.programme}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">MODE OF ENTRY:</td>
-                                <td class="text-[14px]">UTME</td>
+                                <td class="text-[14px]">{{student.modeOfEntry}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">ENTRY LEVEL:</td>
-                                <td class="text-[14px]">100</td>
+                                <td class="text-[14px]">{{student.entryLevel}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">ENTRY YEAR :</td>
-                                <td class="text-[14px]">2019/2020</td>
+                                <td class="text-[14px]">{{student.entrySession.session}}</td>
                             </tr>
 
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">CURRENT ACADEMIC LEVEL:</td>
-                                <td class="text-[14px]">400</td>
+                                <td class="text-[14px]">{{student.currentLevel}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">CURRENT ACADEMIC YEAR:</td>
-                                <td class="text-[14px]">2024/2025</td>
+                                <td class="text-[14px]">{{student.currentSession}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">DATE OF BIRTH :</td>
-                                <td class="text-[14px]">19-01-2000</td>
+                                <td class="text-[14px]">{{student.dateOfBirth}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">STATE :</td>
-                                <td class="text-[14px]">ONDO</td>
+                                <td class="text-[14px]">{{student.stateOfOrigin}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">LGA :</td>
-                                <td class="text-[14px]">AKOKO-NORTH-WEST</td>
+                                <td class="text-[14px]">{{student.localGovtArea}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">SEX :</td>
-                                <td class="text-[14px]">MALE</td>
+                                <td class="text-[14px]">{{student.gender}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">PHONE NO :</td>
-                                <td class="text-[14px]">07039300133</td>
+                                <td class="text-[14px]">{{student.studentPhoneNumber}}</td>
                             </tr>
 
                             <tr class="flex flex-row  mb-3">
                                 <td class="text-[14px] text-red-700 w-[250px]">STUDENT E-MAIL ADDRESS :</td>
-                                <td class="text-[14px]">oni.aduragbemi.191131@fuoye.edu.ng</td>
+                                <td class="text-[14px]">{{student.studentEmail}}</td>
                             </tr>
                         </tbody>
                     </table>
