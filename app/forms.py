@@ -21,7 +21,7 @@ class UserSignupForm(forms.ModelForm):
 class StudentSignupForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['otherNames', 'surname', 'level', 'matricNumber', 'dateOfBirth', 'gender', 'studentPhoneNumber']
+        fields = ['otherNames', 'surname', 'entryLevel', 'matricNumber', 'dateOfBirth', 'gender', 'studentPhoneNumber']
 
 
 class InstructorSignupForm(forms.ModelForm):

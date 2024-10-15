@@ -23,8 +23,8 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-import pdfkit
-config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\AUO\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
+# import pdfkit
+# config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\AUO\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
 
 current_academic_session = "2025/2026"
 current_academic_semester = "second"
@@ -223,7 +223,8 @@ def generate_pdf(reg_course, student, session, semester):
     pdf.cell(180, 2, f'Note:This form should be printed and returned to the Examination Officer at least Four weeks before the commencement of the examinations.', align='C', ln=True)
     pdf.cell(180, 2, f'No Candidate shall be allowed to write any \nexamination in any course unless he/she has satisfied appropriate registration & finanacial regulations.', align='C')
 
-
+    pdf.output('fpdfdemo.pdf', 'F')
+    
     response = HttpResponse(pdf.output(dest='S').encode('latin1'), content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="fpdfdemo.pdf"'
     return response
@@ -259,7 +260,7 @@ def dashboard(request):
     if request.user.is_authenticated:
         user = request.user
         student = get_object_or_404(Student, user=user) 
-    return render(request, 'dashboard.html')
+    return render(request, 'dashboard.html', {'student': student})
 
 # Create your views here.
 @login_required
