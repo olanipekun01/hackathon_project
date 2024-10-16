@@ -308,6 +308,18 @@ def startReg(request):
         # print('courses', courses)
         return render(request, 'coursemain.html', {'courses': courses, 'student':student, 'sess': curr_session, 'semes': semester,'carryover': carryover_courses })
 
+    if request.method == "GET" and "sess" in request.GET:
+        sess = request.GET["sess"]
+        semes = request.GET["semes"]
+
+        reg_courses = Registration.objects.filter(
+                student=student,
+                semester=get_object_or_404(Semester, name=semes),
+                session=get_object_or_404(Session, year=sess)
+            )
+
+        return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': sess, 'semes': semes})
+
     return render(request, 'reg.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
 @login_required
@@ -371,10 +383,10 @@ def printCopy(request):
     if request.user.is_authenticated:
         user = request.user
         student = get_object_or_404(Student, user=user)
-    # sess = "2024/2025"
-    # semes = "first"
-    sem=request.GET.get('key')
-    sess=request.GET.get('keyII')
+    sess = "2024/2025"
+    semes = "first"
+    # sem=request.GET.get('key')
+    # sess=request.GET.get('keyII')
 
     reg_courses = Registration.objects.filter(
                 student=student,

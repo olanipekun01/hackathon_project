@@ -99,9 +99,11 @@
                         </form>
                     </div>
                     {% if exist %}
-                        <div class="">You are registered, <a class="" href="{% url 'print' %}?key={{semester_passed}}&keyII={{session_passed}}">click to view</a></div>
-                    {% else %}
-                        <div>doesnt exist exist</div>
+                    <form method="GET" action="/reg">
+                        <input type="hidden" name="sess" value="{{ session_passed }}">
+                        <input type="hidden" name="semes" value="{{ semester_passed }}">
+                        <div class="">You are registered, <button type="submit" class="">click to view</button></div>
+                    </form>
                     {% endif %}
                 </div>
             </div>

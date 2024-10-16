@@ -112,13 +112,13 @@
                                 </tr>
 
                                 <tr class="flex flex-row  mb-1">
-                                    <td class="text-[15px] text-red-700 w-[250px]">MATRIC NO:</td>
-                                    <td class="text-[15px]">{{student.matricNumber}}</td>
+                                    <td class="text-[15px] text-red-700 w-[250px]">MATRIC NO / JAMB REG. NO:</td>
+                                    <td class="text-[15px]">{{student.matricNumber}} [{{student.jambNumber}}]</td>
                                 </tr>
 
                                 <tr class="flex flex-row  mb-1">
-                                    <td class="text-[15px] text-red-700 w-[250px]">JAMB REGNO:</td>
-                                    <td class="text-[15px]">95753342EC</td>
+                                    <td class="text-[15px] text-red-700 w-[250px]">FACULTY</td>
+                                    <td class="text-[15px]">{{student.college}}</td>
                                 </tr>
 
                                 <tr class="flex flex-row  mb-1">
@@ -213,7 +213,7 @@
 
                         <p id="warning" style="color: red; display: none;">You have exceeded the maximum allowed units!</p>
 
-                        <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>print</button>
+                        <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Print</button>
                     </form>
                 </div>
             </div>
