@@ -9,7 +9,7 @@ urlpatterns = [
     path('reg', views.startReg, name="reg"),
     path('', views.dashboard, name="index"),
     path('accounts/changepassword', views.changePassword, name='changepassword'),
-    path('print/', views.printCopy, name="print"),
+    path('print', views.printCopy, name="print"),
     path('coursemain', views.courseMain, name="coursemain"),
     path('register', views.register, name="register"),
     path('success/', TemplateView.as_view(template_name='success.html'), name='success_page'),

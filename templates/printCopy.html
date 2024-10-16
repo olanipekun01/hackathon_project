@@ -100,7 +100,7 @@
                 <span>{{student.surname}}, {{student.otherNames}} [{{student.matricNumber}}]</span>
             </div>
             <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
-                <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div>
+                {% comment %} <div class='text-red-700 text-[12px]'><span>Kindly Select Academic Session You wish to Register, Thank You</span></div> {% endcomment %}
 
                 <div class='mt-[10px] flex flex-col gap-5 mt-1 border-[1px] border-[#000] px-[10px] py-[10px]'>
                      <div class="flex flex-row gap-10">
@@ -133,12 +133,17 @@
 
                                 <tr class="flex flex-row  mb-1">
                                     <td class="text-[15px] text-red-700 w-[250px]">SESSION:</td>
-                                    <td class="text-[15px]">{{sess}}</td>
+                                    <td class="text-[15px]">{{confirmReg.session.year}}</td>
+                                </tr>
+
+                                 <tr class="flex flex-row  mb-1">
+                                    <td class="text-[15px] text-red-700 w-[250px]">SEMESTER:</td>
+                                    <td class="text-[15px]">{{confirmReg.semester}}</td>
                                 </tr>
 
                                 <tr class="flex flex-row  mb-1">
-                                    <td class="text-[15px] text-red-700 w-[250px]">CURRENT LEVEL:</td>
-                                    <td class="text-[15px]">{{student.currentLevel}}</td>
+                                    <td class="text-[15px] text-red-700 w-[250px]">LEVEL:</td>
+                                    <td class="text-[15px]">{{confirmReg.level.name}}</td>
                                 </tr>
 
                                 
@@ -184,7 +189,7 @@
                                             <td class='tbodytrtd'>{{co.course.courseCode}}</td>
                                             <td class='tbodytrtd'>{{co.course.title}}</td>
                                             <td class='tbodytrtd'>{{co.course.unit}}</td>
-                                            <td class='tbodytrtd'>C</td>
+                                            <td class='tbodytrtd'>{{co.course.status}}</td>
                                             <td class='tbodytrtd'></td>
                                         </tr>
                                     {% endfor %}
@@ -196,7 +201,7 @@
                                     <td class='tbodytrtd'>{{course.course.title}}</td>
                                     {% comment %} <td class='tbodytrtd'>{{course.course.courseCode}}</td> {% endcomment %}
                                     <td class='tbodytrtd'>{{course.course.unit}}</td>
-                                    <td class='tbodytrtd'>C</td>
+                                    <td class='tbodytrtd'>{{course.course.status}}</td>
                                     <td class='tbodytrtd'></td>
                                 </tr>
                                 {% endfor %}
@@ -211,7 +216,10 @@
                             </tbody>
                         </table>
 
-                        <p id="warning" style="color: red; display: none;">You have exceeded the maximum allowed units!</p>
+                         <input type="hidden" name="sess" value="{{ session_passed }}">
+                        <input type="hidden" name="semes" value="{{ semester_passed }}">
+
+                        {% comment %} <p id="warning" style="color: red; display: none;">You have exceeded the maximum allowed units!</p> {% endcomment %}
 
                         <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Print</button>
                     </form>
@@ -228,7 +236,7 @@
 
     <script type="text/javascript">
        document.addEventListener('DOMContentLoaded', function () {
-        const maxUnits = 21;  // Set the maximum allowable course units
+        const maxUnits = 24;  // Set the maximum allowable course units
         let totalUnits = 0;
 
         const courseCheckboxes = document.querySelectorAll('.course-checkbox');

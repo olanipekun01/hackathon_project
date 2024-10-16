@@ -45,7 +45,7 @@ current_academic_session = "2025/2026"
 current_academic_semester = "second"
 
 
-def generate_pdf(reg_course, student, session, semester):
+def generate_pdf(reg_course, student, session, semester, confirmReg):
     class PDF(FPDF, HTMLMixin):
         def header(self):
             # logo
@@ -99,7 +99,7 @@ def generate_pdf(reg_course, student, session, semester):
 
     pdf.set_font('times', 'B', 10)
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 4, f" {session} || {semester} SEMESTER", ln=True)
+    pdf.cell(0, 4, f" {confirmReg.session.year} || {confirmReg.semester.name} SEMESTER", ln=True)
 
 
 
@@ -121,9 +121,9 @@ def generate_pdf(reg_course, student, session, semester):
     pdf.set_text_color(0, 0, 0)
     pdf.cell(0, 7, f'{student.matricNumber} [95753342EC]', ln=True)
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(60, 7, f'FACULTY:')
+    pdf.cell(60, 7, f'FACULTY / COLLEGE:')
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 7, f'Science', ln=True)
+    pdf.cell(0, 7, f'{student.college}', ln=True)
     pdf.set_text_color(0, 0, 0)
     pdf.cell(60, 7, f'PROGRAMME:')
     pdf.set_text_color(0, 0, 0)
@@ -131,15 +131,15 @@ def generate_pdf(reg_course, student, session, semester):
     pdf.set_text_color(0, 0, 0)
     pdf.cell(60, 7, f'DEGREE:')
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 7, f'B.SC. INDUSTRIAL CHEMISTRY', ln=True)
+    pdf.cell(0, 7, f'{student.degree} {student.programme}', ln=True)
     pdf.set_text_color(0, 0, 0)
     pdf.cell(60, 7, f'EMAIL / PHONE NO:')
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 7, f'ONI.ADURAGBEMI.191131@FUOYE.EDU.NG || 07039300133, 07058381197', ln=True)
+    pdf.cell(0, 7, f'{student.studentEmail} || {student.studentPhoneNumber}', ln=True)
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(60, 7, f'CURRENT LEVEL:')
+    pdf.cell(60, 7, f'LEVEL:')
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 7, f'200', )
+    pdf.cell(0, 7, f'{confirmReg.level.name}', )
     pdf.image('profile_pic.jpg', 170, 50, 23)
 
     pdf.ln()
@@ -160,18 +160,20 @@ def generate_pdf(reg_course, student, session, semester):
     # Add table rows with padding and borders
     pdf.set_font('Arial', 'B', 6)
     pdf.set_text_color(0, 0, 0)
-    for row in range(15):
-        pdf.cell(25, 4, f'CHM 201', border=1)
-        pdf.cell(100, 4, f'Introduction to chemistry', border=1)
-        pdf.cell(15, 4, f'3', border=1)
-        pdf.cell(15, 4, f'C', border=1)
+    unit = 0
+    for co in reg_course:
+        pdf.cell(25, 4, f'{co.course.courseCode}', border=1)
+        pdf.cell(100, 4, f'{co.course.title}', border=1)
+        pdf.cell(15, 4, f'{co.course.unit}', border=1)
+        pdf.cell(15, 4, f'{co.course.status}', border=1)
         pdf.cell(30, 4, f'', border=1)
         pdf.ln()
+        unit += co.course.unit
 
     pdf.set_font('Arial', 'B', 6)
     pdf.cell(25, 4, f'', border=1)
     pdf.cell(100, 4, f'Total Registered Units', border=1)
-    pdf.cell(15, 4, f'24', border=1)
+    pdf.cell(15, 4, f'{unit}', border=1)
     pdf.cell(15, 4, f'', border=1)
     pdf.cell(30, 4, f'', border=1)
     pdf.ln()
@@ -317,8 +319,14 @@ def startReg(request):
                 semester=get_object_or_404(Semester, name=semes),
                 session=get_object_or_404(Session, year=sess)
             )
+        
+        confirmReg = confirmRegister.objects.filter(
+                student=student,
+                semester=get_object_or_404(Semester, name=semes),
+                session=get_object_or_404(Session, year=sess)
+            ).first()
 
-        return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': sess, 'semes': semes})
+        return render(request, 'printCopy.html', {'courses': reg_courses, 'confirmReg': confirmReg, 'student':student, 'session_passed': sess, 'semester_passed': semes})
 
     return render(request, 'reg.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
@@ -334,7 +342,7 @@ def courseMain(request):
         semes= request.POST["semes"]
         # print("sess", session, "semes", semester)
         for id in courses:
-            print('course id', id)
+            # print('course id', id)
             # course = get_object_or_404(Course, id=id)
             # Registration.dept.add(department)
             # registration = Registration.objects.create(student = student,
@@ -346,34 +354,51 @@ def courseMain(request):
             course=get_object_or_404(Course, id=id),
             print('course name', course)
             semester = get_object_or_404(Semester, name=semes)
-            
-            course_exist = Registration.objects.filter(
+
+            course_exist = Registration.objects.create(
                 student=student,
                 course=get_object_or_404(Course, id=id),
-                semester=semester
-            ).first()
+                session = get_object_or_404(Session, year=sess), 
+                semester = get_object_or_404(Semester, name=semes)
+            )
+            course_exist.save()
 
-            print('course exist', course_exist)
+            
+            
+            # course_exist = Registration.objects.filter(
+            #     student=student,
+            #     course=get_object_or_404(Course, id=id),
+            #     semester=semester
+            # ).first()
 
-            if course_exist:
-                # course_exist = Registration.objects.filter(
-                #     student=student,
-                #     semester=semester,
-                #     course=course
-                # )
-                print('yes it exist')
-                # If the registration already exists, update the session and semester
-                course_exist.session = get_object_or_404(Session, year=sess)
-                # registration.semester = semester
-                course_exist.save()
-            else:
-                course_exist = Registration.objects.create(
-                    student=student,
-                    course=get_object_or_404(Course, id=id),
-                    session = get_object_or_404(Session, year=sess), 
-                    semester = get_object_or_404(Semester, name=semes)
-                )
-                course_exist.save()
+            # print('course exist', course_exist)
+
+            # if course_exist:
+            #     # course_exist = Registration.objects.filter(
+            #     #     student=student,
+            #     #     semester=semester,
+            #     #     course=course
+            #     # )
+            #     print('yes it exist')
+            #     # If the registration already exists, update the session and semester
+            #     course_exist.session = get_object_or_404(Session, year=sess)
+            #     # registration.semester = semester
+            #     course_exist.save()
+            # else:
+            #     course_exist = Registration.objects.create(
+            #         student=student,
+            #         course=get_object_or_404(Course, id=id),
+            #         session = get_object_or_404(Session, year=sess), 
+            #         semester = get_object_or_404(Semester, name=semes)
+            #     )
+            #     course_exist.save()
+        confirmReg = confirmRegister.objects.create(student=student, 
+                session = get_object_or_404(Session, year=sess), 
+                semester = get_object_or_404(Semester, name=semes),
+                level = get_object_or_404(Level,name=student.currentLevel)
+            )
+
+        confirmReg.save()
         return redirect('/')
         
     return render(request, 'coursemain.html')
@@ -383,25 +408,36 @@ def printCopy(request):
     if request.user.is_authenticated:
         user = request.user
         student = get_object_or_404(Student, user=user)
-    sess = "2024/2025"
-    semes = "first"
-    # sem=request.GET.get('key')
-    # sess=request.GET.get('keyII')
+    # sess = "2024/2025"
+    # semes = "first"
+    # # sem=request.GET.get('key')
+    # # sess=request.GET.get('keyII')
 
-    reg_courses = Registration.objects.filter(
-                student=student,
-                semester=get_object_or_404(Semester, name=sem),
-                session=get_object_or_404(Session, year=sess)
-            )
+    # reg_courses = Registration.objects.filter(
+    #             student=student,
+    #             semester=get_object_or_404(Semester, name=sem),
+    #             session=get_object_or_404(Session, year=sess)
+    #         )
+
+    if request.method == 'GET':
+        return redirect('/')
     
     if request.method == 'POST':
+        sess = request.POST["sess"]
+        semes = request.POST["semes"]
         reg_courses = Registration.objects.filter(
                 student=student,
-                semester=get_object_or_404(Semester, name=sem),
+                semester=get_object_or_404(Semester, name=semes),
                 session=get_object_or_404(Session, year=sess)
             )
         
-        gen = generate_pdf(reg_courses, student, '2024/2025', 'first')
+        confirmReg = confirmRegister.objects.filter(
+                student=student,
+                semester=get_object_or_404(Semester, name=semes),
+                session=get_object_or_404(Session, year=sess)
+            ).first()
+        
+        gen = generate_pdf(reg_courses, student, sess, semes, confirmReg)
 
         gen.output('fpdfdemo.pdf', 'F')
     
@@ -410,7 +446,8 @@ def printCopy(request):
         return response
 
 
-    return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': '2024/2025', 'semes': 'first'})
+    # return render(request, 'printCopy.html', {'courses': reg_courses,'student':student, 'sess': '2024/2025', 'semes': 'first'})
+    return render(request, 'printCopy.html')
 
 # def generatePDF(request):
     # pdf = pdfkit.from_url(request.build_absolute_uri('/print'), False, configuration=config)
@@ -424,9 +461,9 @@ def printCopy(request):
     # response = HttpResponse(pdf, content_type='application/pdf')
     # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
 
-    pdf = render_to_pdf('printCopy.html')
+    # pdf = render_to_pdf('printCopy.html')
 
-    return HttpResponse(pdf, content_type='application/pdf')
+    # return HttpResponse(pdf, content_type='application/pdf')
 
 def register(request):
     if request.method == 'POST':

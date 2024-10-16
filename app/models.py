@@ -127,6 +127,7 @@ class Course(models.Model):
     courseCode = models.CharField(blank=True, null=True, max_length=15)
     # courseDescription = models.CharField(blank=True, null=True, max_length=250)
     unit = models.IntegerField(blank=True, null=True)
+    status = models.CharField(blank=True, null=True, max_length=2)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     programmes = models.ManyToManyField(Programme, related_name='courses')
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
@@ -160,6 +161,12 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.student.surname} - {self.registration_date}"
-    
 
+class confirmRegister(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=True, default=None)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True, default=None)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE,  null=True, default=None)
+    registration_date = models.DateField(auto_now_add=True)
+    level = models.ForeignKey(Level, on_delete=models.CASCADE)
 

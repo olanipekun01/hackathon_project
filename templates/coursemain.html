@@ -155,7 +155,7 @@
 
                                     <tr class="flex flex-row  mb-3">
                                         <td class="text-[15px] text-red-700 w-[250px]">CURRENT LEVEL:</td>
-                                        <td class="text-[15px]">{{student.level}}</td>
+                                        <td class="text-[15px]">{{student.currentLevel}}</td>
                                     </tr>
 
                                     
@@ -245,7 +245,7 @@
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
-        const maxUnits = 21;  // Set the maximum allowable course units
+        const maxUnits = 24;  // Set the maximum allowable course units
         let totalUnits = 0;
 
         const courseCheckboxes = document.querySelectorAll('.course-checkbox');
