@@ -14,6 +14,7 @@ urlpatterns = [
     path('register', views.register, name="register"),
     path('success/', TemplateView.as_view(template_name='success.html'), name='success_page'),
     path('accounts/login/', views.login_view, name="login_view"),
+    path('accounts/logout/', views.logout, name="logout"),
     path('password_reset/', views.password_reset_request, name='password_reset'),
     path('reset/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
     path('password_reset/done/', views.password_reset_request, name='password_reset_done'),

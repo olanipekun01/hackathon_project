@@ -25,7 +25,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, auth
 from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -442,7 +442,9 @@ def printCopy(request):
         gen.output('fpdfdemo.pdf', 'F')
     
         response = HttpResponse(gen.output(dest='S').encode('latin1'), content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="fpdfdemo.pdf"'
+        # response['Content-Disposition'] = 'attachment; filename="fpdfdemo.pdf"'
+
+        response['Content-Disposition'] = 'inline; filename="preview.pdf"'
         return response
 
 
@@ -528,6 +530,12 @@ def login_view(request):
     
     return render(request, 'login.html')
 
+@login_required
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
+@login_required
 def changePassword(request):
     if request.method == 'POST':
         old_password = request.POST['oldpassword']
@@ -541,7 +549,7 @@ def changePassword(request):
 
         if user.check_password(old_password):
             print('im here')
-            # user.set_password(new_password)
+            user.set_password(new_password)
             return render(request, 'changepassword.html', {'success': "Password Change Successful!"})
         else:
             error_message = "Incorrect old password."
