@@ -56,6 +56,7 @@ class Programme(models.Model):
     name = models.CharField(blank=True, null=True, max_length=500)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     duration = models.IntegerField(blank=True, null=True)
+    degree = models.CharField(blank=True, null=True, max_length=50)
 
     def __str__(self):
         return self.name
@@ -74,7 +75,6 @@ class Student(models.Model):
     college = models.ForeignKey(College, on_delete=models.CASCADE,  null=True, default=None)
     department = models.ForeignKey(Department, on_delete=models.CASCADE,  null=True, default=None)
     programme = models.ForeignKey(Programme, on_delete=models.CASCADE,  null=True, default=None)
-    degree = models.CharField(blank=True, null=True, max_length=50)
     entrySession = models.ManyToManyField(Session, through='Enrollment', null=True, default=None)
     currentSession = models.CharField(blank=True, null=True, max_length=20)
     primaryEmail = models.CharField(blank=True, null=True, max_length=120)
@@ -83,6 +83,7 @@ class Student(models.Model):
     genoType = models.CharField(blank=True, null=True, max_length=20)
     modeOfEntry = models.CharField(blank=True, null=True, max_length=50)
     entryLevel = models.CharField(blank=True, null=True, max_length=50)
+    degree = models.CharField(blank=True, null=True, max_length=50)
     # bloodgroup, genotype, jambreg,email, 
     # maritalStatus = models.CharField(blank=True, null=True, max_length=30)
     nationality = models.CharField(blank=True, null=True, max_length=110)
