@@ -8,6 +8,8 @@ import uuid
 import random
 import string
 
+import os
+
 import fpdf
 from fpdf import FPDF, HTMLMixin
 
@@ -140,7 +142,13 @@ def generate_pdf(reg_course, student, session, semester, confirmReg):
     pdf.cell(60, 7, f'LEVEL:')
     pdf.set_text_color(0, 0, 0)
     pdf.cell(0, 7, f'{confirmReg.level.name}', )
-    pdf.image('profile_pic.jpg', 170, 50, 23)
+
+    if student.passport:
+        image_path = os.path.join(settings.MEDIA_ROOT, student.passport.name)
+
+        if os.path.exists(image_path):
+            
+            pdf.image(image_path, 170, 50, 23)
 
     pdf.ln()
 
@@ -605,3 +613,10 @@ def password_reset_confirm(request, uidb64=None, token=None):
         form = None
 
     return render(request, 'password_reset_confirm.html', {'form': form})
+
+
+
+
+def adminDashboard(request):
+
+    return render(request, 'admin/admin_dashboard.html')

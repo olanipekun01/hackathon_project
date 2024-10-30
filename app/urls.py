@@ -3,6 +3,12 @@ from . import views
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+
+
 app_name = "course"
 
 urlpatterns = [
@@ -19,6 +25,13 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
     path('password_reset/done/', views.password_reset_request, name='password_reset_done'),
     path('reset/done/', views.password_reset_confirm, name='password_reset_complete'),
-]
 
+
+    path('instructor/dashboard', views.adminDashboard, name='instructor_dashboard')
+] 
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, 
+                          document_root=settings.MEDIA_ROOT)
  # path('pdf', views.generatePDF, name='pdf'),

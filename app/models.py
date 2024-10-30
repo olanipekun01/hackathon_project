@@ -89,6 +89,8 @@ class Student(models.Model):
     nationality = models.CharField(blank=True, null=True, max_length=110)
     stateOfOrigin = models.CharField(blank=True, null=True, max_length=110)
     localGovtArea = models.CharField(blank=True, null=True, max_length=110)
+    passport = models.ImageField(upload_to="images/", null=True, blank=True)
+
     
     # passport = models.ImageField(upload_to="images/")
     def __str__(self):
@@ -142,6 +144,8 @@ class Instructor(models.Model):
     name = models.CharField(blank=True, null=True, max_length=500)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     phoneNumber = models.CharField(blank=True, null=True, max_length=15)
+    departmental_email = models.CharField(blank=True, null=True, max_length=90)
+    passport = models.ImageField(upload_to="images/", null=True, blank=True)
 
     def __str__(self):
         return self.name
