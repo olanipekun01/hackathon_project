@@ -27,7 +27,8 @@ urlpatterns = [
     path('reset/done/', views.password_reset_confirm, name='password_reset_complete'),
 
 
-    path('instructor/dashboard', views.adminDashboard, name='instructor_dashboard')
+    path('instructor/dashboard', views.adminDashboard, name='instructor_dashboard'),
+    path('404', views.F404, name='f404')
 ] 
 
 

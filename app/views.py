@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from .forms import UserSignupForm, StudentSignupForm, InstructorSignupForm
 from .models import *
@@ -22,7 +22,7 @@ from django.template.loader import render_to_string
 # from xhtml2pdf import pisa
 
 from django.contrib.auth.models import User, auth
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -37,6 +37,7 @@ from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth import get_user_model
+from django.forms.models import model_to_dict
 
 UserModel = get_user_model()
 
@@ -45,6 +46,15 @@ UserModel = get_user_model()
 
 current_academic_session = "2025/2026"
 current_academic_semester = "second"
+
+# Helper functions for role checks
+def is_student(user):
+    # print("User", User.role)
+    return user.user_type == 'student'
+    # return True
+
+def is_instructor(user):
+    return user.user_type == 'instructor'
 
 
 def generate_pdf(reg_course, student, session, semester, confirmReg):
@@ -274,9 +284,8 @@ def is_student_registered_for_semester(student, semester, session):
         session=session
     ).exists()
 
-
-
 @login_required
+@user_passes_test(is_student, login_url='no_permission')
 def dashboard(request):
     if request.user.is_authenticated:
         user = request.user
@@ -285,6 +294,7 @@ def dashboard(request):
 
 # Create your views here.
 @login_required
+@user_passes_test(is_student, login_url='no_permission')
 def startReg(request):
     print('user', request.user)
     if request.user.is_authenticated:
@@ -339,6 +349,7 @@ def startReg(request):
     return render(request, 'reg.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
 @login_required
+@user_passes_test(is_student, login_url='no_permission')
 def courseMain(request):
     if request.user.is_authenticated:
         user = request.user
@@ -412,6 +423,7 @@ def courseMain(request):
     return render(request, 'coursemain.html')
 
 @login_required
+@user_passes_test(is_student, login_url='no_permission')
 def printCopy(request):
     if request.user.is_authenticated:
         user = request.user
@@ -524,7 +536,14 @@ def login_view(request):
             #     error_message = "Invalid password."
             if user is not None:
                 auth.login(request, user)
-                return redirect('/')
+                if (user.user_type == "student"):
+                    return redirect('/')
+                elif (user.user_type == "instructor"):
+                    return redirect('/instructor/dashboard')
+                else:
+                    # Redirect user to a 404 page
+                    return redirect("/404")
+            # elif user is not None and user.user_type == 'student':
             else:
                 error_message = "Invalid credentials!"
                 # return redirect('/accounts/login')
@@ -544,6 +563,7 @@ def logout(request):
     return redirect('/')
 
 @login_required
+@user_passes_test(is_student, login_url='no_permission')
 def changePassword(request):
     if request.method == 'POST':
         old_password = request.POST['oldpassword']
@@ -615,8 +635,20 @@ def password_reset_confirm(request, uidb64=None, token=None):
     return render(request, 'password_reset_confirm.html', {'form': form})
 
 
+# // Admin dashboards
 
-
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
 def adminDashboard(request):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user) 
+        countProgrammes = len(Programme.objects.filter(department=instructor.department))
+        countCourses = len(Course.objects.filter(department=instructor.department))
+        
 
-    return render(request, 'admin/admin_dashboard.html')
+    return render(request, 'admin/admin_dashboard.html', {"countProgrammes":countProgrammes, "countCourses": countCourses, })
+
+
+def F404(request):
+    return render(request, 'admin/404.html')
