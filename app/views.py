@@ -39,6 +39,9 @@ from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth import get_user_model
 from django.forms.models import model_to_dict
 
+
+from django.contrib import messages
+
 UserModel = get_user_model()
 
 # import pdfkit
@@ -285,7 +288,7 @@ def is_student_registered_for_semester(student, semester, session):
     ).exists()
 
 @login_required
-@user_passes_test(is_student, login_url='no_permission')
+@user_passes_test(is_student, login_url='/404')
 def dashboard(request):
     if request.user.is_authenticated:
         user = request.user
@@ -294,7 +297,7 @@ def dashboard(request):
 
 # Create your views here.
 @login_required
-@user_passes_test(is_student, login_url='no_permission')
+@user_passes_test(is_student, login_url='/404')
 def startReg(request):
     print('user', request.user)
     if request.user.is_authenticated:
@@ -349,7 +352,7 @@ def startReg(request):
     return render(request, 'reg.html', {'student':student, 'sess': '2024/2025', 'semes': 'first'})
 
 @login_required
-@user_passes_test(is_student, login_url='no_permission')
+@user_passes_test(is_student, login_url='/404')
 def courseMain(request):
     if request.user.is_authenticated:
         user = request.user
@@ -423,7 +426,7 @@ def courseMain(request):
     return render(request, 'coursemain.html')
 
 @login_required
-@user_passes_test(is_student, login_url='no_permission')
+@user_passes_test(is_student, login_url='/404')
 def printCopy(request):
     if request.user.is_authenticated:
         user = request.user
@@ -563,7 +566,7 @@ def logout(request):
     return redirect('/')
 
 @login_required
-@user_passes_test(is_student, login_url='no_permission')
+@user_passes_test(is_student, login_url='/404')
 def changePassword(request):
     if request.method == 'POST':
         old_password = request.POST['oldpassword']
@@ -647,8 +650,47 @@ def adminDashboard(request):
         countCourses = len(Course.objects.filter(department=instructor.department))
         
 
-    return render(request, 'admin/admin_dashboard.html', {"countProgrammes":countProgrammes, "countCourses": countCourses, })
+    return render(request, 'admin/admin_dashboard.html', {"countProgrammes":countProgrammes, "countCourses": countCourses, "department": instructor.department })
 
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def adminProgrammeManagement(request):
+    if request.user.is_authenticated:
+        
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user) 
+        programmes = Programme.objects.filter(department=instructor.department)
+        # countCourses = len(Course.objects.filter(department=instructor.department))
+        if request.method == "POST":
+            programme_name = request.POST['programme_name']
+            programme_duration = request.POST['programme_duration']
+            programme_degree = request.POST['programme_degree']
+
+            if Programme.objects.all().filter(name=programme_name).exists():
+                messages.info(request, 'Programme already exist!')
+                return redirect("/instructor/programmes")
+        
+            programmeObjects = Programme.objects.create(name=programme_name, department=instructor.department, 
+                                          duration=programme_duration, degree=programme_degree)
+            programmeObjects.save()
+            messages.info(request, 'Programme Added!')
+            return redirect('/instructor/programmes')
+
+
+
+    return render(request, 'admin/admin_program_management.html', {"programmes": programmes, "department": instructor.department,})
+
+
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def deleteProgramme(request, id):
+    program = Programme.objects.filter(id=id)[0]
+    if Programme.objects.all().filter(id=id).exists():
+        program = Programme.objects.filter(id=id).delete()
+        messages.info(request, f'{program.name} deleted successfully')
+        return redirect("/instructor/programmes")
+    messages.info(request, f'{program.name} deleted successfully')
+    return redirect("/instructor/programmes")
 
 def F404(request):
     return render(request, 'admin/404.html')
