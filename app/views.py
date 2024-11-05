@@ -680,17 +680,52 @@ def adminProgrammeManagement(request):
 
     return render(request, 'admin/admin_program_management.html', {"programmes": programmes, "department": instructor.department,})
 
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def UpdateProgramme(request):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user)
+        if request.method == "POST":
+            p_id = request.POST["programme_id"]
+            p_name = request.POST["programme_name"].strip()
+            p_duration = request.POST["programme_duration"].strip()
+            p_degree = request.POST["programme_degree"].strip()
+
+            if p_name != "" and p_duration != "" and p_degree != "": 
+                try:
+                    programmes = Programme.objects.filter(department=instructor.department, id=p_id)[0]
+                    programmes.name = p_name
+                    programmes.degree = p_degree
+                    programmes.duration = p_duration
+                    programmes.save()
+                    messages.info(request, f'Programme Updated')
+                    return redirect("/instructor/programmes")
+                except:
+                    messages.info(request, f'Programme not available')
+                    return redirect("/instructor/programmes")
+            messages.info(request, f'Fields cannot be empty')
+            return redirect("/instructor/programmes")
+        return redirect("/instructor/programmes")
+    
 
 @login_required
 @user_passes_test(is_instructor, login_url='/404')
 def deleteProgramme(request, id):
-    program = Programme.objects.filter(id=id)[0]
-    if Programme.objects.all().filter(id=id).exists():
-        program = Programme.objects.filter(id=id).delete()
-        messages.info(request, f'{program.name} deleted successfully')
+
+    try:
+        program = Programme.objects.filter(id=id)[0]
+        print("1", program.name)
+        if Programme.objects.all().filter(id=id).exists():
+            messages.info(request, f'{program.name} deleted successfully')
+            program = Programme.objects.filter(id=id).delete()
+            
+            return redirect("/instructor/programmes")
+        messages.info(request, f'Programme not available')
         return redirect("/instructor/programmes")
-    messages.info(request, f'{program.name} deleted successfully')
-    return redirect("/instructor/programmes")
+    except:
+        messages.info(request, f'Programme not available')
+        return redirect("/instructor/programmes")
 
 def F404(request):
     return render(request, 'admin/404.html')

@@ -30,7 +30,7 @@ urlpatterns = [
     path('instructor/dashboard/', views.adminDashboard, name='instructor_dashboard'),
     path('instructor/programmes/', views.adminProgrammeManagement, name='instructor_programme_dashboard'),
     path('instructor/programmes/delete/<str:id>/', views.deleteProgramme, name='instructor_delete_programme'),
-
+    path('instructor/programmes/upgrade/', views.UpdateProgramme, name='instructor_programme_update'),
     path('404', views.F404, name='f404')
 ] 
 

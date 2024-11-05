@@ -290,6 +290,7 @@
                                 <tr class=''>
                                     <th class='theadtrtd w-[328px] px-2 text-left'>Program title</th>
                                     <th class='theadtrtd w-[228px] px-2 text-left'>Duration</th>
+                                    <th class='theadtrtd w-[158px] px-2 text-left'>Degree</th>
                                     <th class='theadtrtd w-[158px] px-2 text-left'></th>
                                     <th class='theadtrtd w-[158px] px-2 text-left'></th>
                                 </tr>
@@ -299,7 +300,8 @@
                                 <tr class='tbodytr'>
                                     <td class='w-[328px] px-2 capitalize'>{{programme.name}}</td>
                                     <td class='w-[228px] px-2'>{{programme.duration}}</td>
-                                    <td class='w-[158px] px-2 text-green-500'><button onclick="handleUpdateModal()">update</button></td>
+                                    <td class='w-[158px] px-2 text-green-500'>{{programme.degree}}</td>
+                                    <td class='w-[158px] px-2 text-green-500'><button onclick="handleUpdateModal('{{programme.name}}', '{{programme.duration}}', '{{programme.degree}}', '{{programme.id}}')">update</button></td>
                                     <td class='w-[158px] px-2'><button class="text-red-700" onclick="handleDeletePopOut('/instructor/programmes/delete/{{programme.id}}', '{{programme.name}}')">delete</button></td>
                                 </tr> 
                             {% endfor %}
@@ -364,19 +366,35 @@
   
 
     <div class="update_programme">
-        <form method="post" action="/admin/programme/">
-          <!-- {% csrf_token %} -->
+        <form method="post" action="/instructor/programmes/upgrade/">
+          {% csrf_token %}
 
           <h4 class="mb-8 text-[23px] ml-5 text-red-700">Update</h1>
           <input
-            id="modalNameInput"
+            id="updateModalNameInput"
             type="text"
             name="programme_name"
             value="Biochemistry"
             
           />
-          <input type="number"  value="4" name="programme_duration" placeholder="duration" />
-         
+
+          <input
+            id="updateModalIdInput"
+            hidden
+            type="text"
+            name="programme_id"
+            value="11111111"
+            
+          />
+
+          <input id="updateModalDurationInput" type="number"  value="4" name="programme_duration" placeholder="duration" />
+
+         <input
+            id="updateModalDegreeInput"
+            type="text"
+            name="programme_degree"
+            placeholder="B.Sc"
+          />
   
           
           <button>submit</button>

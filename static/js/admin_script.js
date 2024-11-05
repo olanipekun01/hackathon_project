@@ -38,9 +38,13 @@ let btn = document.querySelector('#btn');
             document.querySelector(".background_wrapper").style.display = "none";
         }
 
-        function handleUpdateModal() {
+        function handleUpdateModal(name, duration, degree, id) {
             document.querySelector(".update_programme").style.display = "block";
             document.querySelector(".background_wrapper").style.display = "block";
+            document.querySelector('#updateModalDegreeInput').value = degree;
+            document.querySelector('#updateModalDurationInput').value = duration;
+            document.querySelector('#updateModalNameInput').value = name;  
+            document.querySelector('#updateModalIdInput').value = id;
         }
 
         function closeUpdateModal() {
