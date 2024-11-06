@@ -726,6 +726,16 @@ def deleteProgramme(request, id):
     except:
         messages.info(request, f'Programme not available')
         return redirect("/instructor/programmes")
+    
+
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def adminCourseManagement(request):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user)
+
+    return render(request, 'admin/course_management.html')
 
 def F404(request):
     return render(request, 'admin/404.html')
