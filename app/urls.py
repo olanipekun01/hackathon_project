@@ -33,6 +33,7 @@ urlpatterns = [
     path('instructor/programmes/upgrade/', views.UpdateProgramme, name='instructor_programme_update'),
     
     path('instructor/courses/', views.adminCourseManagement, name='instructor_course_dashboard'),
+    path('instructor/courses/update', views.updateCourse, name='instructor_course_update'),
     path('404', views.F404, name='f404')
 ] 
 

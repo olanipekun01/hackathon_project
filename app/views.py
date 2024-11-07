@@ -666,15 +666,23 @@ def adminProgrammeManagement(request):
             programme_duration = request.POST['programme_duration']
             programme_degree = request.POST['programme_degree']
 
-            if Programme.objects.all().filter(name=programme_name).exists():
-                messages.info(request, 'Programme already exist!')
+            if programme_name != "" and programme_duration != "" and programme_degree != "": 
+                try:
+                    if Programme.objects.all().filter(name=programme_name).exists():
+                        messages.info(request, 'Programme already exist!')
+                        return redirect("/instructor/programmes")
+                
+                    programmeObjects = Programme.objects.create(name=programme_name, department=instructor.department, 
+                                                duration=programme_duration, degree=programme_degree)
+                    programmeObjects.save()
+                    messages.info(request, 'Programme Added!')
+                    return redirect('/instructor/programmes')
+                except:
+                    messages.info(request, f'Programme not available')
+                    return redirect("/instructor/programmes")
+            else:
+                messages.info(request, f'Fields cannot be empty')
                 return redirect("/instructor/programmes")
-        
-            programmeObjects = Programme.objects.create(name=programme_name, department=instructor.department, 
-                                          duration=programme_duration, degree=programme_degree)
-            programmeObjects.save()
-            messages.info(request, 'Programme Added!')
-            return redirect('/instructor/programmes')
 
 
 
@@ -734,8 +742,95 @@ def adminCourseManagement(request):
     if request.user.is_authenticated:
         user = request.user
         instructor = get_object_or_404(Instructor, user=user)
+        courses = Course.objects.all().filter(department=instructor.department)
+        programmes = Programme.objects.all()
+        if request.method == "POST":
+            course_title = request.POST['course_title'].strip()
+            course_code = request.POST['course_code'].strip()
+            course_unit = request.POST['course_unit'].strip()
+            course_status = request.POST['course_status'].strip()
+            # programmes = request.POST['programmes']
+            level = request.POST['level']
+            semester = request.POST['semester']
 
-    return render(request, 'admin/course_management.html')
+            if course_title == "" and course_code == "" and course_unit == "" and course_status == "":
+                messages.info(request, f'Fields cannot be empty')
+                return redirect("/instructor/courses")
+
+            if Course.objects.all().filter(courseCode=course_code).exists():
+                messages.info(request, 'Course already exist!')
+                return redirect("/instructor/courses")
+        
+            courseObjects = Course.objects.create(title=course_title, courseCode=course_code, department=instructor.department, 
+                                          unit=course_unit, status=course_status, level=level, semester=semester)
+            
+            courseObjects.save()
+            programmes_ids = request.POST.getlist('programmes')  # Assuming departments are selected in a form
+            for programme_id in programmes_ids:
+                programme = get_object_or_404(Programme, pk=programme_id)
+                courseObjects.programmes.add(programme)
+            messages.info(request, 'Course Added!')
+            return redirect('/instructor/courses')
+
+    return render(request, 'admin/course_management.html', {'courses': courses, "programmes": programmes, "department": instructor.department})
+
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def updateCourse(request):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user)
+        if request.method == "POST":
+            course_id = request.POST["course_id"]
+            course_title = request.POST["course_title"].strip()
+            course_code = request.POST["course_code"].strip()
+            course_unit = request.POST["course_unit"].strip()
+            course_status = request.POST["course_status"].strip()
+            level = request.POST['level']
+            semester = request.POST['semester']
+
+            if course_title != "" and course_code != "" and course_unit != "" and course_status != "": 
+                try:
+                    courseObjects = Course.objects.filter(department=instructor.department, id=course_id)[0]
+                    courseObjects.title = course_title
+                    courseObjects.courseCode = course_code
+                    courseObjects.unit = course_unit
+                    courseObjects.status = course_status
+                    courseObjects.level = level
+                    courseObjects.semester = semester
+                    courseObjects.save()
+                    programmes_ids = request.POST.getlist('programmes')  # Assuming departments are selected in a form
+                    for programme_id in programmes_ids:
+                        programme = get_object_or_404(Programme, pk=programme_id)
+                        courseObjects.programmes.add(programme)
+                    messages.info(request, f'Course Updated')
+                    return redirect("/instructor/courses")
+                except:
+                    messages.info(request, f'Course not available')
+                    return redirect("/instructor/courses")
+            messages.info(request, f'Fields cannot be empty')
+            return redirect("/instructor/courses")
+        return redirect("/instructor/courses")
+
+
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def deleteProgramme(request, id):
+
+    try:
+        program = Programme.objects.filter(id=id)[0]
+        print("1", program.name)
+        if Programme.objects.all().filter(id=id).exists():
+            messages.info(request, f'{program.name} deleted successfully')
+            program = Programme.objects.filter(id=id).delete()
+            
+            return redirect("/instructor/programmes")
+        messages.info(request, f'Programme not available')
+        return redirect("/instructor/programmes")
+    except:
+        messages.info(request, f'Programme not available')
+        return redirect("/instructor/programmes")
+    
 
 def F404(request):
     return render(request, 'admin/404.html')
