@@ -293,34 +293,23 @@
                                 <h4 class="font-bold text-[18px]">First</h4>
                                 <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
 
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
+                                    
 
-                                            <span class="text-[#077105] font-bold">C</span>
+                                    {% for course in courses %}
+                                        <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
+                                            <div class="flex flex-row justify-between">
+                                                <h5 class="font-bold text-[15px]">{{course.courseCode}}</h5>
+
+                                                <span class="text-[#077105] font-bold">{{course.status}}</span>
+                                            </div>
+                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{course.title}}</p>
+
+                                            <div class="flex justify-between mt-2 text-[11px] font-bold">
+                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.courseCode}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}')">Update</button>
+                                                <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.courseCode}}')">Delete</button>
+                                            </div>
                                         </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleCourseUpdateModal()">Update</button>
-                                            <button>View</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}')">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.code}}')">Delete</button>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
 
 
                                     <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
@@ -1550,31 +1539,44 @@
 
           <h4 class="mb-8 text-[23px] ml-5 text-red-700">Update</h1>
           <input
-            id="modalCourseTitleInput"
+            id="updateCourseTitleInput"
             type="text"
             name="course_title"
+            value="introduction to biochemistry"
             placeholder="Course Title"
           />
 
           <input
-            id="modalCourseCodeInput"
+            id="#updateCourseIdInput"
+            type="text"
+            name="course_title"
+            hidden
+            value="1111"
+            placeholder="Course Id"
+          />
+
+          <input
+            id="updateCourseCodeInput"
             type="text"
             name="course_code"
+            value="bch201"
             placeholder="Course Code"
           />
 
           <input
-            id="modalCourseUnitInput"
+            id="updateCourseUnitInput"
             type="number"
             name="course_unit"
             placeholder="Course Unit"
+            value="3"
           />
 
           <input
-            id="modalCourseStatusInput"
+            id="updateCourseStatusInput"
             type="text"
             name="course_status"
             placeholder="Course Status"
+            value="Cs"
           />
 
           <div class="flex flex-col mb-[60px] w-[100%] h-[300px] overflow-y-scroll">
