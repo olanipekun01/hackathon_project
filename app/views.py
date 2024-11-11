@@ -7,6 +7,7 @@ from .models import *
 import uuid
 import random
 import string
+import json
 
 import os
 
@@ -43,6 +44,13 @@ from django.forms.models import model_to_dict
 from django.contrib import messages
 
 UserModel = get_user_model()
+
+# class UUIDEncoder(json.JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, UUID):
+#             # if the obj is uuid, we simply return the value of uuid
+#             return obj.hex
+#         return json.JSONEncoder.default(self, obj)
 
 # import pdfkit
 # config = pdfkit.configuration(wkhtmltopdf=r"C:\Users\AUO\Downloads\wkhtmltox-0.12.6-1.msvc2015-win64.exe")
@@ -745,19 +753,21 @@ def adminCourseManagement(request):
         # courses = Course.objects.all().filter(department=instructor.department)
         courses = [
         {
-            "id": course.id,
+            "id":  str(course.id),
             "title": course.title,
             "code": course.courseCode,
             "unit": course.unit,
             "status": course.status,
             "level": course.level.name,
             "semester": course.semester.name,
-            "programmes": list(course.programmes.values_list("id", flat=True))  # Programme IDs
+            "programmes": [str(prog_id) for prog_id in course.programmes.values_list("id", flat=True)]  # Convert each programme ID to string
         }
         for course in Course.objects.all().filter(department=instructor.department)
         ]
+        # print('see courses', courses[0].title)
+        cObjects = Course.objects.all().filter(department=instructor.department)
         course_levels = []
-        for x in courses:
+        for x in cObjects:
             course_levels.append(x.level.name)
         course_levels.sort(key=int)
         course_levels = list(set(course_levels))
@@ -794,7 +804,7 @@ def adminCourseManagement(request):
             messages.info(request, 'Course Added!')
             return redirect('/instructor/courses')
 
-    return render(request, 'admin/course_management.html', {'courses': json.dumps(courses), 'courseLevels': course_levels, "programmes": programmes, "department": instructor.department})
+    return render(request, 'admin/course_management.html', {'courses': courses, 'courseLevels': course_levels, "programmes": programmes, "department": instructor.department})
 
 @login_required
 @user_passes_test(is_instructor, login_url='/404')

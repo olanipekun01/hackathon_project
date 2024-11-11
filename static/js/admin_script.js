@@ -95,18 +95,18 @@ let btn = document.querySelector('#btn');
             sidebar.classList.toggle("active");
         }
 
-        function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
-            console.log('details', title, code, semester, unit, status, level);
-            document.querySelector(".update_programme").style.display = "block";
-            document.querySelector(".background_wrapper").style.display = "block";
-            document.querySelector('#updateCourseTitleInput').value = title;
-            document.querySelector('#updateCourseCodeInput').value = code;
-            document.querySelector('#updateCourseUnitInput').value = unit;  
-            document.querySelector('#updateCourseStatusInput').value = status;  
-            document.querySelector('#updateCourseSemesterInput').value = semester;
-            document.querySelector('#updateCourseLevelInput').value = level; 
-            document.querySelector('#updateCourseIdInput').value = id;
-        }
+        // function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
+        //     console.log('details', title, code, semester, unit, status, level);
+        //     document.querySelector(".update_programme").style.display = "block";
+        //     document.querySelector(".background_wrapper").style.display = "block";
+        //     document.querySelector('#updateCourseTitleInput').value = title;
+        //     document.querySelector('#updateCourseCodeInput').value = code;
+        //     document.querySelector('#updateCourseUnitInput').value = unit;  
+        //     document.querySelector('#updateCourseStatusInput').value = status;  
+        //     document.querySelector('#updateCourseSemesterInput').value = semester;
+        //     document.querySelector('#updateCourseLevelInput').value = level; 
+        //     document.querySelector('#updateCourseIdInput').value = id;
+        // }
 
         function closeCourseUpdateModal() {
             event.preventDefault();
