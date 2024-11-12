@@ -197,38 +197,11 @@
     </style>
 </head>
 <body>
-    <script>
-        const courses = {{ courses|safe }};
-
-        function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
-            console.log("hello");
-            document.querySelector(".update_programme").style.display = "block";
-            document.querySelector(".background_wrapper").style.display = "block";
-            const course = courses.find(c => c.id === id);
-            
-            if (course) {
-                
-                document.querySelector('#updateCourseTitleInput').value = title;
-                document.querySelector('#updateCourseCodeInput').value = code;
-                document.querySelector('#updateCourseUnitInput').value = unit;  
-                document.querySelector('#updateCourseStatusInput').value = status;  
-                document.querySelector('#updateCourseSemesterInput').value = semester;
-                document.querySelector('#updateCourseLevelInput').value = level; 
-                document.querySelector('#updateCourseIdInput').value = id;
-
-                document.querySelectorAll('.course-checkbox').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
-
-                course.programmes.forEach(programmeId => {
-                    const checkboxes = document.querySelectorAll(`.course-checkbox[value="${programmeId}"]`);
-                    checkboxes.forEach(checkbox => {
-                        checkbox.checked = true;
-                    });
-                });
-            }
-        }
+    <script type="text/javascript">
+         const courses = JSON.parse('{{ courses|safe }}');
+        console.log("Courses data:", courses); 
     </script>
+    
     <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
         <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
             <img src="{% static '/assets/achieverslogo.png' %}" class="w-[40px] lg:w-20 " alt="">
@@ -346,7 +319,7 @@
 
                                             <div class="flex justify-between mt-2 text-[11px] font-bold">
                                                 <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}')">Update</button>
-                                                <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.courseCode}}')">Delete</button>
+                                                <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.code}}')">Delete</button>
                                             </div>
                                         </div>
                                         {% endif %}
@@ -395,767 +368,7 @@
 
                         <hr class="mt-4">
 
-                        <!-- <div class="">
-                            <h3 class="level text-[18px] text-[#077105] font-bold">200 Level</h3>
-
-                            <div class="mt-3">
-                                <h4 class="font-bold text-[18px]">First</h4>
-                                <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                               
-
-
-                                   
-                                </div>
-                            </div>
-
-                            <div class="mt-3">
-                                <h4 class="font-bold text-[18px]">Second</h4>
-                                <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                               
-
-
-                                   
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="mt-4">
-
-                        <div class="">
-                            <h3 class="level text-[18px] text-[#077105] font-bold">300 Level</h3>
-
-                            <div class="mt-3">
-                                <h4 class="font-bold text-[18px]">First</h4>
-                                <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                               
-
-
-                                   
-                                </div>
-                            </div>
-
-                            <div class="mt-3">
-                                <h4 class="font-bold text-[18px]">Second</h4>
-                                <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-
-                                        <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                            <button onclick="handleUpdateModal()">Update</button>
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                        </div>
-                                    </div>
-
-                               
-
-
-                                   
-                                </div>
-                            </div>
-                        </div> -->
+                        
                     </div>
                     
                     
@@ -1294,7 +507,7 @@
             type="text"
             name="course_status"
             placeholder="Course Status"
-            value="Cs"
+            value="C"
           />
 
           <div class="flex flex-col mb-[60px] w-[100%] h-[300px] overflow-y-scroll">
@@ -1350,12 +563,151 @@
         </div>
       </div>
 
-    <script src="{% static 'js/admin_script.js' %}" type="text/javascript">
-        
-        const courses = {{ courses|safe }};
 
+    <script type="text/javascript">
+
+        let btn = document.querySelector('#btn');
+        let sidebar = document.querySelector('.sidebar');
+        let searchBtn = document.querySelector('.bx-search');
+
+        function handleResultModal(link, code) {
+            document.querySelector(".upload_result").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+        }
+
+        function closeResultModal() {
+            event.preventDefault();
+            document.querySelector(".upload_result").style.display = "none";
+            document.querySelector(".background_wrapper").style.display = "none";
+        }
+
+        function handleGrade(link, code) {
+            document.querySelector(".update_grade").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+        }
+
+        function closeGradeModal() {
+            event.preventDefault();
+            document.querySelector(".update_grade").style.display = "none";
+            document.querySelector(".background_wrapper").style.display = "none";
+        }
+
+        function handleCreateModal() {
+            document.querySelector(".create_programme").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+        }
+
+        function closeCreateModal() {
+            event.preventDefault();
+            document.querySelector(".create_programme").style.display = "none";
+            document.querySelector(".background_wrapper").style.display = "none";
+        }
+
+        function handleUpdateModal(name, duration, degree, id) {
+            document.querySelector(".update_programme").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+            document.querySelector('#updateModalDegreeInput').value = degree;
+            document.querySelector('#updateModalDurationInput').value = duration;
+            document.querySelector('#updateModalNameInput').value = name;  
+            document.querySelector('#updateModalIdInput').value = id;
+        }
+
+        function closeUpdateModal() {
+            event.preventDefault();
+            document.querySelector(".update_programme").style.display = "none";
+            document.querySelector(".background_wrapper").style.display = "none";
+        }
+
+        function showFilterModal() {
+            // document.querySelector(".issue_modal_container").style.display = "block";
+            document.querySelector(".filter_container").style.display = "block";
+        };
+
+        function closeFilterModal() {
+            event.preventDefault();
+            document.querySelector(".filter_container").style.display = "none";
+            // document.querySelector(".background_wrapper").style.display = "none";
+        }
+
+        // document.getElementById("cancelBtn").addEventListener("click", function (event) {
+        //     event.preventDefault();
+        //     document.querySelector(".modal_container").style.display = "none";
+        // })
+
+
+        function handleDeletePopOut(link, name) {
+            document.querySelector(".deletePopOut").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+            document.querySelector(".popOutItemLink").href = link;
+            document.querySelector(".popOutItemName").innerHTML = name;
+        }
+
+        function closePopOut() {
+            event.preventDefault();
+            document.querySelector(".deletePopOut").style.display = "none";
+            document.querySelector(".background_wrapper").style.display = "none";
+        }
+
+
+        btn.onclick = function () {
+            sidebar.classList.toggle("active");
+        }
+
+        searchBtn.onclick = function () {
+            sidebar.classList.toggle("active");
+        }
+
+        // function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
+        //     console.log('details', title, code, semester, unit, status, level);
+        //     document.querySelector(".update_programme").style.display = "block";
+        //     document.querySelector(".background_wrapper").style.display = "block";
+        //     document.querySelector('#updateCourseTitleInput').value = title;
+        //     document.querySelector('#updateCourseCodeInput').value = code;
+        //     document.querySelector('#updateCourseUnitInput').value = unit;  
+        //     document.querySelector('#updateCourseStatusInput').value = status;  
+        //     document.querySelector('#updateCourseSemesterInput').value = semester;
+        //     document.querySelector('#updateCourseLevelInput').value = level; 
+        //     document.querySelector('#updateCourseIdInput').value = id;
+        // }
+
+       
         
-        
+
+        function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
+            console.log('details', title, code, semester, unit, status, level);
+            const courses = JSON.parse('{{ courses|safe }}');
+            document.querySelector(".update_programme").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+            const course = courses.find(c => c.id === id);
+            console.log("i got here")
+            
+            if (course) {
+                document.querySelector('#updateCourseTitleInput').value = title;
+                document.querySelector('#updateCourseCodeInput').value = code;
+                document.querySelector('#updateCourseUnitInput').value = unit;  
+                document.querySelector('#updateCourseStatusInput').value = status;  
+                document.querySelector('#updateCourseSemesterInput').value = semester;
+                document.querySelector('#updateCourseLevelInput').value = level; 
+                document.querySelector('#updateCourseIdInput').value = id;
+                document.querySelectorAll('.course-checkbox').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                course.programmes.forEach(programmeId => {
+                    const checkboxes = document.querySelectorAll(`.course-checkbox[value="${programmeId}"]`);
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = true;
+                    });
+                });
+            }
+        }
+
+        function closeCourseUpdateModal() {
+            event.preventDefault();
+            document.querySelector(".update_programme").style.display = "none";
+            document.querySelector(".background_wrapper").style.display = "none";
+        }
     </script>
+    
 </body>
 </html>
