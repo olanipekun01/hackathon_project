@@ -290,8 +290,8 @@
                 </div>
                 <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
                     <div class="">
-                        <h4 class="text-[22px]">Introduction to Biochemistry</h4>
-                        <h6 class="">>>> BCH101</h6>
+                        <h4 class="text-[22px]">{{course.title}}</h4>
+                        <h6 class="">>>> {{course.courseCode}}</h6>
                     </div>
 
                     <div class="mt-4 flex flex-col">
@@ -300,12 +300,12 @@
                         <div class="">
                             
                             <div class="">
-                                <form class='flex flex-row gap-4' method='post' action='/reg'>
+                                <form class='flex flex-row gap-4' method='post' action='/instructor/courses/'>
                                     {% csrf_token %}
                                     <select name='session' class='font-bold border-[1px] border-[#000] px-2'>
-                                        <option value="2025/2026">2025/2026</option>
-                                        <option value="2024/2025">2024/2025</option>
-                                    
+                                        {% for sess in session %}
+                                            <option value="{{sess.id}}">{{sess.year}}</option>
+                                        {% endfor %}
                                     </select>
         
                                     <select name='semester' class='font-bold border-[1px] border-[#000] px-2'>

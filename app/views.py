@@ -771,6 +771,7 @@ def adminCourseManagement(request):
             course_levels.append(x.level.name)
         course_levels.sort(key=int)
         course_levels = list(set(course_levels))
+        print('course', course_levels)
         programmes = Programme.objects.all()
         # selected_programmes = courseObjects.programmes.all()
         if request.method == "POST":
@@ -874,8 +875,16 @@ def eachCourse(request, id):
     if request.user.is_authenticated:
         user = request.user
         instructor = get_object_or_404(Instructor, user=user)
-        course = Course.objects.all().filter(department=instructor.department, id=id)
-    return render(request, 'admin/each_course.html', {'course': course, "department": instructor.department})
+        session = Session.objects.all()
+        course = Course.objects.all().filter(department=instructor.department, id=id).first()
+        if request.method == 'POST':
+            sess = request.POST['session']
+            semes = request.POST['semester']
+            if session != "" and semester != "":
+                sess = get_object_or_404(Session, id=sess)
+                semes = get_object_or_404(Semester, name=semes)
+                register = Registration.objects.all().filter(session=g)
+    return render(request, 'admin/each_course.html', {'course': course, "department": instructor.department, 'session': session})
 
 def F404(request):
     return render(request, 'admin/404.html')
