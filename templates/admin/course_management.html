@@ -197,10 +197,10 @@
     </style>
 </head>
 <body>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
          const courses = JSON.parse('{{ courses|safe }}');
         console.log("Courses data:", courses); 
-    </script>
+    </script> -->
     
     <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
         <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
@@ -310,7 +310,7 @@
                                         {% if course.level == i and course.semester == 'first' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <h5 class="font-bold text-[15px]">{{course.code}}</h5>
+                                                <a href="/instructor/courses/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
 
                                                 <span class="text-[#077105] font-bold">{{course.status}}</span>
                                             </div>
@@ -318,7 +318,7 @@
                                             <p class="mt-3 text-[10px]"><span class="text-12px font-bold">ID: </span>{{course.id}}</p>
 
                                             <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}')">Update</button>
+                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}', {{course.programmes | safe}})">Update</button>
                                                 <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.code}}')">Delete</button>
                                             </div>
                                         </div>
@@ -343,14 +343,14 @@
                                         {% if course.level == i and course.semester == 'second' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <h5 class="font-bold text-[15px]">{{course.code}}</h5>
+                                                <a href="/instructor/courses/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
 
                                                 <span class="text-[#077105] font-bold">{{course.status}}</span>
                                             </div>
                                             <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{course.title}}</p>
 
                                             <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}')">Update</button>
+                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}', '{{course.programmes | safe}}')">Update</button>
                                                 <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.courseCode}}')">Delete</button>
                                             </div>
                                         </div>
@@ -514,7 +514,7 @@
             {% for p in programmes %}
                 <div class="flex flex-row">
                     <input type="checkbox" data-unit="3" value="{{p.id}}" name="programmes" id="" class="course-checkbox">
-                        {% comment %} {% if p in  %}checked{% endif %}> {% endcomment %}
+                         
                     <label class="" for="">{{p.name}}</label>
                 </div>
             {% endfor %}
@@ -564,7 +564,7 @@
       </div>
 
 
-    <script type="text/javascript">
+    <script src="{% static 'js/admin_script.js' %}" type="text/javascript">
 
         
     </script>

@@ -868,5 +868,14 @@ def deleteCourse(request, id):
     #     return redirect("/instructor/courses")
     
 
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def eachCourse(request, id):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user)
+        course = Course.objects.all().filter(department=instructor.department, id=id)
+    return render(request, 'admin/each_course.html', {'course': course, "department": instructor.department})
+
 def F404(request):
     return render(request, 'admin/404.html')

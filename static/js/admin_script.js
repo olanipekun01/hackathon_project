@@ -98,48 +98,71 @@ let btn = document.querySelector('#btn');
             sidebar.classList.toggle("active");
         }
 
-        // function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
-        //     console.log('details', title, code, semester, unit, status, level);
-        //     document.querySelector(".update_programme").style.display = "block";
-        //     document.querySelector(".background_wrapper").style.display = "block";
-        //     document.querySelector('#updateCourseTitleInput').value = title;
-        //     document.querySelector('#updateCourseCodeInput').value = code;
-        //     document.querySelector('#updateCourseUnitInput').value = unit;  
-        //     document.querySelector('#updateCourseStatusInput').value = status;  
-        //     document.querySelector('#updateCourseSemesterInput').value = semester;
-        //     document.querySelector('#updateCourseLevelInput').value = level; 
-        //     document.querySelector('#updateCourseIdInput').value = id;
-        // }
+        function handleCourseUpdateModal(title, code, unit, status, semester, level, id, selectedProgrammes) {
+            console.log('details', title, code, semester, unit, status, level);
+            document.querySelector(".update_programme").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+            document.querySelector(".update_programme").style.display = "block";
+            document.querySelector(".background_wrapper").style.display = "block";
+            document.querySelector('#updateCourseTitleInput').value = title;
+            document.querySelector('#updateCourseCodeInput').value = code;
+            document.querySelector('#updateCourseUnitInput').value = unit;  
+            document.querySelector('#updateCourseStatusInput').value = status;  
+            document.querySelector('#updateCourseSemesterInput').value = semester;
+            document.querySelector('#updateCourseLevelInput').value = level; 
+            document.querySelector('#updateCourseIdInput').value = id;
+
+            document.querySelectorAll('.course-checkbox').forEach(checkbox => {
+                if (selectedProgrammes.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                } else {
+                    checkbox.checked = false;
+                }
+            });
+
+            // document.querySelectorAll('.course-checkbox').forEach(checkbox => {
+            //     checkbox.checked = false;
+            // });
+        
+            // // Check the boxes for selected programs
+            // selectedProgrammes.forEach(programmeId => {
+            //     const checkbox = document.querySelector(`.course-checkbox[value="${programmeId}"]`);
+            //     console.log("Checkbox found for programmeId:", programmeId, checkbox);
+            //     if (checkbox) {
+            //         checkbox.checked = true;
+            //     }
+            // });
+        }
 
         const courses = JSON.parse('{{ courses|safe }}');
         
 
-        function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
+        // function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
             
-            document.querySelector(".update_programme").style.display = "block";
-            document.querySelector(".background_wrapper").style.display = "block";
-            const course = courses.find(c => c.id === id);
+        //     document.querySelector(".update_programme").style.display = "block";
+        //     document.querySelector(".background_wrapper").style.display = "block";
+        //     const course = courses.find(c => c.id === id);
             
-            if (course) {
-                document.querySelector('#updateCourseTitleInput').value = title;
-                document.querySelector('#updateCourseCodeInput').value = code;
-                document.querySelector('#updateCourseUnitInput').value = unit;  
-                document.querySelector('#updateCourseStatusInput').value = status;  
-                document.querySelector('#updateCourseSemesterInput').value = semester;
-                document.querySelector('#updateCourseLevelInput').value = level; 
-                document.querySelector('#updateCourseIdInput').value = id;
-                document.querySelectorAll('.course-checkbox').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
+        //     if (course) {
+        //         document.querySelector('#updateCourseTitleInput').value = title;
+        //         document.querySelector('#updateCourseCodeInput').value = code;
+        //         document.querySelector('#updateCourseUnitInput').value = unit;  
+        //         document.querySelector('#updateCourseStatusInput').value = status;  
+        //         document.querySelector('#updateCourseSemesterInput').value = semester;
+        //         document.querySelector('#updateCourseLevelInput').value = level; 
+        //         document.querySelector('#updateCourseIdInput').value = id;
+        //         document.querySelectorAll('.course-checkbox').forEach(checkbox => {
+        //             checkbox.checked = false;
+        //         });
 
-                course.programmes.forEach(programmeId => {
-                    const checkboxes = document.querySelectorAll(`.course-checkbox[value="${programmeId}"]`);
-                    checkboxes.forEach(checkbox => {
-                        checkbox.checked = true;
-                    });
-                });
-            }
-        }
+        //         course.programmes.forEach(programmeId => {
+        //             const checkboxes = document.querySelectorAll(`.course-checkbox[value="${programmeId}"]`);
+        //             checkboxes.forEach(checkbox => {
+        //                 checkbox.checked = true;
+        //             });
+        //         });
+        //     }
+        // }
 
         function closeCourseUpdateModal() {
             event.preventDefault();
