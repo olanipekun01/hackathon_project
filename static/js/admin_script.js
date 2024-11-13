@@ -95,7 +95,8 @@ let btn = document.querySelector('#btn');
             sidebar.classList.toggle("active");
         }
 
-        function handleCourseUpdateModal(title, code, unit, status, semester, level) {
+        function handleCourseUpdateModal(title, code, unit, status, semester, level, id) {
+            console.log('details', title, code, semester, unit, status, level);
             document.querySelector(".update_programme").style.display = "block";
             document.querySelector(".background_wrapper").style.display = "block";
             document.querySelector('#updateCourseTitleInput').value = title;
