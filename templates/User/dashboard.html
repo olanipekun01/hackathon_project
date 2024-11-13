@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="description"
+			content="Get information about achievers on going addmission process for 2024/2025 admissions, check out programmes offered at Achievers University" />
+		<meta
+			name="keywords"
+			content="achievers university, achievers university owo, admissions, application, screening, post utme" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		{% comment %}
+		<link
+			rel="shortcut icon"
+			href="achieverslogo.svg"
+			type="image/x-icon" />
+		{% endcomment %}
+		<title>AUO Student Biodata</title>
+		{% comment %}
+		<link rel="stylesheet" href="./styles/index.css" />
+		{% endcomment %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style type="text/tailwindcss"></style>
+	</head>
+	<body class="flex flex-row h-screen overflow-hidden">
+		<aside
+			class="bg-[#2E0323] p-4 text-white flex flex-col justify-between">
+			<header class="flex flex-row gap-0 items-center">
+				<img
+					src="{% static 'images/images/achievers_logo.png' %}"
+					alt="LOGO"
+					class="w-[56px] object-cover" />
+				<div class="select-none">
+					<h2 class="font-bold text-sm">ACHIEVERS UNIVERSITY</h2>
+					<span class="font-light text-xs"
+						>KM 1, Idasen-Ute Road, Owo, Ondo State</span
+					>
+				</div>
+			</header>
+
+			<section class="h-full mt-24">
+				<ul class="flex flex-col gap-3">
+					<li
+						class="flex flex-row gap-0 items-center font-medium hover:underline duration-300 transistion-all cursor-pointer">
+						<div class="h-2 w-2 bg-white mx-1"></div>
+						Home
+					</li>
+					<li
+						class="flex flex-row gap-0 items-center font-medium hover:underline duration-300 transistion-all cursor-pointer">
+						<div class="h-2 w-2 bg-white mx-1"></div>
+						Course Registration
+					</li>
+					<li
+						class="flex flex-row gap-0 items-center font-medium hover:underline duration-300 transistion-all cursor-pointer">
+						<div class="h-2 w-2 bg-white mx-1"></div>
+						Change Password
+					</li>
+				</ul>
+			</section>
+
+			<footer class="flex flex-col mb-6 gap-2">
+				<button
+					class="w-fit font-medium hover:underline duration-300 transistion-all cursor-pointer">
+					Preferences
+				</button>
+				<button
+					class="w-fit font-medium hover:underline duration-300 transistion-all cursor-pointer">
+					Logout
+				</button>
+			</footer>
+		</aside>
+
+		<main class="flex-1 overflow-y-scroll p-4 bg-[#EAF0EC]">
+			<header class="pr-16">
+				<ul class="w-full flex flex-row justify-end gap-12 font-medium">
+					<li class="text-sm">Home</li>
+					<li class="text-sm">Official Website</li>
+					<li class="text-sm">Contact</li>
+				</ul>
+			</header>
+
+			<section class="mt-6 bg-[#2E032333] rounded-md py-3 w-full px-4">
+				<h1 class="text-4xl text-[#064B0D] font-bold">
+					PERSONAL INFORMATION
+				</h1>
+				<div class="mt-6 flex flex-row gap-6">
+					<img
+						src="https://s3-alpha-sig.figma.com/img/24b7/a72f/57c747657d3394bcc5fa30f0f03a501d?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=V4-1iKZnD9GjvzPhwdsziLldrQCEa8Q1E7c6CEhJQxysjketOkPS~PVwCCthiy7IOKQyLQ2xHCBt7vyA96y-omnKGetB9G50et8ats5eHwYfRWLmmd8MjGI5Jfr47rYvGoqNBqvHrSLSgHk-JcnFHfsnmd3w0GXP-XBCqaIflQUAH1TGYyQR7x1mllVGx~pv-cGPqHB8xnB8wujX9uAw-zo8xfKJVeOrjdqJ3OnpUlBfc~DFurmRQMCH~tgKtqglvOHvfobsxA-YCYjkydj5GB5m3HaaIihUNIS3CGM5ryeGga2vx3IXaEz2vAa5p5efBveVPc~OEUrAPXYQc9O~3A__"
+						class="w-[200px] rounded-full h-[200px] object-top object-cover object-center"
+						alt="User Photograph" />
+					<div class="grid grid-cols-2 gap-y-7 flex-1 font-light">
+						<fieldset>
+							<label for="name" class="font-medium text-[#064B0D]"
+								>NAME:</label
+							>
+							<!-- <p>OMATA DAVID ENYO-OJO</p> -->
+							<p>{{ student.surname }}</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="programme"
+								>PROGRAMME:</label
+							>
+							<p class="capitalize">{{student.programme}}</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="matric_no"
+								>MATRIC NO / JAMB REG NO:</label
+							>
+							<p>AUO19EC2561</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="programme_degree"
+								>PROGRAMME DEGREE:</label
+							>
+							<p class="capitalize">{{student.degree}}</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="college"
+								>COLLEGE:</label
+							>
+							<p class="capitalize">{{student.college}}</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="mode_of_entry"
+								>MODE OF ENTRY:</label
+							>
+							<p>{{student.modeOfEntry}}</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="department"
+								>DEPARTMENT</label
+							>
+							<p class="capitalize">{{student.department}}</p>
+						</fieldset>
+						<fieldset>
+							<label
+								class="font-medium text-[#064B0D]"
+								for="entry_level"
+								>ENTRY LEVEL:</label
+							>
+							<p>{{student.entryLevel}}</p>
+						</fieldset>
+					</div>
+				</div>
+			</section>
+
+			<!-- <section> -->
+			<section
+				class="mt-8 bg-[#2E032333] font-light rounded-md py-16 px-4 w-full px-2">
+				<!-- <h1>ACADEMIC INFORMATION</h1> -->
+				<div class="grid-cols-3 grid gap-y-8">
+					<fieldset>
+						<label
+							class="font-medium text-[#064B0D]"
+							for="entry_year"
+							>ENTRY YEAR:</label
+						>
+						<p>{{student.entrySession.session}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label class="font-medium text-[#064B0D]" for="state"
+							>STATE:</label
+						>
+						<p>{{student.stateOfOrigin}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label
+							class="font-medium text-[#064B0D]"
+							for="personal_email"
+							>PERSONAL EMAIL ADDRESS:</label
+						>
+						<p>{{student.studentEmail}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label
+							class="font-medium text-[#064B0D]"
+							for="currenct_academic_level"
+							>CURRENT ACADEMIC LEVEL:</label
+						>
+						<p>{{student.currentLevel}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label class="font-medium text-[#064B0D]" for="lga"
+							>LGA:</label
+						>
+						<p>{{student.localGovtArea}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label
+							class="font-medium text-[#064B0D]"
+							for="school_email"
+							>SCHOOL EMAIL ADDRESS:</label
+						>
+						<p>{{student.studentEmail}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label
+							class="font-medium text-[#064B0D]"
+							for="currenct_academic_year"
+							>CURRENT ACADEMIC YEAR:</label
+						>
+						<p>{{student.currentSession}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label class="font-medium text-[#064B0D]" for="sex"
+							>SEX:</label
+						>
+						<p>MALE</p>
+					</fieldset>
+
+					<fieldset>
+						<label class="font-medium text-[#064B0D]" for="dob"
+							>DATE OF BIRTH:</label
+						>
+						<p>{{student.dateOfBirth}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label class="font-medium text-[#064B0D]" for="phone"
+							>PHONE NO:</label
+						>
+						<p>{{student.studentPhoneNumber}}</p>
+					</fieldset>
+
+					<fieldset>
+						<label
+							class="font-medium text-[#064B0D]"
+							for="guardian_phone"
+							>GUARDIAN PHONE NO:</label
+						>
+						<p>+234 905 940 1192</p>
+					</fieldset>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>
