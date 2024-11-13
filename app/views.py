@@ -948,12 +948,7 @@ def updateCourse(request):
             level = request.POST["level"]
             semester = request.POST["semester"]
 
-            if (
-                course_title != ""
-                and course_code != ""
-                and course_unit != ""
-                and course_status != ""
-            ):
+            if ( course_title != "" and course_code != "" and course_unit != "" and course_status != ""):
                 try:
                     courseObjects = Course.objects.filter(
                         department=instructor.department, id=course_id
@@ -975,9 +970,9 @@ def updateCourse(request):
                     courseObjects.programmes.set(programmes)
                     messages.info(request, f'Course Updated')
                     return redirect("/instructor/courses")
-                # except:
-                #     messages.info(request, f'Course not available')
-                #     return redirect("/instructor/courses")
+                except:
+                    messages.info(request, f'Course not available')
+                    return redirect("/instructor/courses")
             messages.info(request, f'Fields cannot be empty')
             return redirect("/instructor/courses")
         return redirect("/instructor/courses")
@@ -1013,10 +1008,17 @@ def eachCourse(request, id):
         if request.method == 'POST':
             sess = request.POST['session']
             semes = request.POST['semester']
-            if session != "" and semester != "":
-                sess = get_object_or_404(Session, id=sess)
+            if sess != "" and semes != "":
+                sess = get_object_or_404(Session, year=sess)
                 semes = get_object_or_404(Semester, name=semes)
-                register = Registration.objects.all().filter(session=g)
+                
+                register = Registration.objects.all().filter(session=sess, semester=semes, course=get_object_or_404(Course, id=id))
+                print('register', register)
+
+                return render(request, 'admin/each_course.html', {'course': course, "department": instructor.department, 'session': session, 'registered_student': register})
+            
+            messages.info(request, f'Information not available')
+            redirect(f"/instructor/courses/each/{id}/")
     return render(request, 'admin/each_course.html', {'course': course, "department": instructor.department, 'session': session})
 
 def F404(request):

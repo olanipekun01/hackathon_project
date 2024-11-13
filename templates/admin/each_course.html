@@ -300,11 +300,11 @@
                         <div class="">
                             
                             <div class="">
-                                <form class='flex flex-row gap-4' method='post' action='/instructor/courses/'>
+                                <form class='flex flex-row gap-4' method='post' action='/instructor/courses/each/{{course.id}}/'>
                                     {% csrf_token %}
                                     <select name='session' class='font-bold border-[1px] border-[#000] px-2'>
                                         {% for sess in session %}
-                                            <option value="{{sess.id}}">{{sess.year}}</option>
+                                            <option value="{{sess.year}}">{{sess.year}}</option>
                                         {% endfor %}
                                     </select>
         
@@ -316,7 +316,8 @@
                                     <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Process</button>
                                 </form>
                             </div>
-
+                            
+                             {% if registered_student %}
                             <table class='table'>
                                 <thead class='thead'>
                                     <tr class='theadtr'>
@@ -325,25 +326,31 @@
                                         <th class='theadtrtd w-[108px] px-2 text-left'>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody class='tbody '>
+                               
+                                    <tbody class='tbody '>
                                     
-                                    <input type="hidden" name="sess" value="{{ sess }}">
-                                    <input type="hidden" name="semes" value="{{ semes }}">
-                                   
-                                    <tr class='tbodytr'>
-                                       <td class='tbodytrtd'>AU2024CHM222</td>
-                                        <td class='tbodytrtd'>Otelo Undunlu</td>
-                                        <td class='tbodytrtd'>Registered</td>
-                                    </tr>
+                                        <input type="hidden" name="sess" value="{{ sess }}">
+                                        <input type="hidden" name="semes" value="{{ semes }}">
                                     
-                                    <tr class='tbodytr'>
-                                        <td class='tbodytrtd'></td>
-                                        <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Students :</td>
-                                        <td class='tbodytrtd text-[#000] font-bold' id="totalUnits">0</td>
+                                       {% for reg in registered_student %}
+                                        <tr class='tbodytr'>
+                                            <td class='tbodytrtd'>{{reg.student.matricNumber}}</td>
+                                            <td class='tbodytrtd'>{{reg.student.surname}}, {{reg.student.otherNames}}</td>
+                                            <td class='tbodytrtd'>Registered</td>
+                                        </tr>
+                                       {% endfor %}
+
                                         
-                                    </tr>
-                                </tbody>
+                                        <tr class='tbodytr'>
+                                            <td class='tbodytrtd'></td>
+                                            <td class='tbodytrtd text-right text-[#000] font-bold'>Total Registered Students :</td>
+                                            <td class='tbodytrtd text-[#000] font-bold' id="totalUnits">0</td>
+                                            
+                                        </tr>
+                                    </tbody>
+                               
                             </table>
+                             {% endif %}
     
 
 

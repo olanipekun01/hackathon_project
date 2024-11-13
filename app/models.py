@@ -30,7 +30,6 @@ class CustomUser(AbstractUser):
         return check_password(raw_password, self.password)
     
 class Session(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     year = models.CharField(max_length=9)  # e.g., '2023/2024'
     is_current = models.BooleanField(default=False)  # Marks current active session
 

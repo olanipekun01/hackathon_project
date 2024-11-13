@@ -310,7 +310,7 @@
                                         {% if course.level == i and course.semester == 'first' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <a href="/instructor/courses/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
+                                                <a href="/instructor/courses/each/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
 
                                                 <span class="text-[#077105] font-bold">{{course.status}}</span>
                                             </div>
@@ -343,14 +343,14 @@
                                         {% if course.level == i and course.semester == 'second' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <a href="/instructor/courses/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
+                                                <a href="/instructor/courses/each/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
 
                                                 <span class="text-[#077105] font-bold">{{course.status}}</span>
                                             </div>
                                             <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{course.title}}</p>
 
                                             <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}', '{{course.programmes | safe}}')">Update</button>
+                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}', {{course.programmes | safe}})">Update</button>
                                                 <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.courseCode}}')">Delete</button>
                                             </div>
                                         </div>
