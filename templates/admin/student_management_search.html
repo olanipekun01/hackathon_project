@@ -15,7 +15,7 @@
             background-color: #C3C4CE;
             padding: 20px 20px;
             width: 550px;
-            height: 900px;
+            height: 800px;
             border-radius: 20px;
             display: none;
             position: absolute;
@@ -197,11 +197,6 @@
     </style>
 </head>
 <body>
-    <!-- <script type="text/javascript">
-         const courses = JSON.parse('{{ courses|safe }}');
-        console.log("Courses data:", courses); 
-    </script> -->
-    
     <header class="relative flex justify-between item-center bg-gradient-to-r px-[20px] lg:px-[70px] py-6 from-[#077105] via-[#077105] to-[#049d04]">
         <a href="./index.html" class="flex -gap-1 items-center -ml-2 lg:-ml-5">
             <img src="{% static '/assets/achieverslogo.png' %}" class="w-[40px] lg:w-20 " alt="">
@@ -268,7 +263,7 @@
                 <div class='mt-[20px] bg-[#000000] flex flex-row justify-between  text-white text-[17px] py-2 px-[10px] lg:px-[30px] flex flex-row gap-2 items-center'>
                     <span class="">.: {{department}} </span>
 
-                    <div class="features flex flex-row gap-8">
+                    <!-- <div class="features flex flex-row gap-8">
                         <div class="">
                             <img src="" alt="" class="">
                             <button onclick="handleCreateModal()" class="">+ Create</button>
@@ -280,93 +275,36 @@
                                 <button>Search</button>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
 
                     
                 </div>
-
-                {% for message in messages %}
-                 <h5 style="color: red">{{message}}</h5>
-                {% endfor %}
                 <div class='mt-1 border-[1px] border-[#000] px-[30px] py-[10px]'>
                     <div class="">
-                        <h4 class="text-[22px]">Courses</h4>
+                        <h4 class="text-[22px]">Search registration</h4>
                     </div>
 
-                    <div class="mt-4 flex flex-col">
+                    {% for message in messages %}
+                        <h5 style="color: red">{{message}}</h5>
+                    {% endfor %}
 
-                        {% for i in courseLevels %}
-
-                        <div class="">
-                            <h3 class="level text-[18px] text-[#077105] font-bold">{{i}} Level</h3>
-                            
-                            <div class="mt-3">
-                                <h4 class="font-bold text-[18px]">First</h4>
-                                <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-
-                                    
-
-                                    {% for course in courses %}
-                                        {% if course.level == i and course.semester == 'first' %}
-                                        <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                            <div class="flex flex-row justify-between">
-                                                <a href="/instructor/courses/each/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
-
-                                                <span class="text-[#077105] font-bold">{{course.status}}</span>
-                                            </div>
-                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{course.title}}</p>
-
-                                            <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}', {{course.programmes | safe}})">Update</button>
-                                                <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.code}}')">Delete</button>
-                                            </div>
-                                        </div>
-                                        {% endif %}
+                    <div class="">
+                            <form class='mt-[20px] flex flex-col gap-4 w-[460px]' method='post' action='/instructor/student/search/'>
+                                {% csrf_token %}
+                                <input type="text" name="matricNo" class="border-[1px] border-[#077105] border-solid px-[15px] py-[10px] rounded-md" placeholder="Matric Number">
+                                <select name='session' class='font-bold border-[1px] border-[#000] px-2'>
+                                    {% for sess in session %}
+                                        <option value="{{sess.year}}">{{sess.year}}</option>
                                     {% endfor %}
-
-
-                                    
-
-                               
-
-
-                                   
-                                </div>
-                            </div>
-
-                            <div class="mt-3">
-                                <h4 class="font-bold text-[18px]">Second</h4>
-                                <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-
-                                    {% for course in courses %}
-                                        {% if course.level == i and course.semester == 'second' %}
-                                        <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                            <div class="flex flex-row justify-between">
-                                                <a href="/instructor/courses/each/{{course.id}}"><h5 class="font-bold text-[15px]">{{course.code}}</h5></a>
-
-                                                <span class="text-[#077105] font-bold">{{course.status}}</span>
-                                            </div>
-                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{course.title}}</p>
-
-                                            <div class="flex justify-between mt-2 text-[11px] font-bold">
-                                                <button onclick="handleCourseUpdateModal('{{course.title}}','{{course.code}}', '{{course.unit}}', '{{course.status}}', '{{course.semester}}', '{{course.level}}', '{{course.id}}', {{course.programmes | safe}})">Update</button>
-                                                <button class="text-red-700" onclick="handleDeletePopOut('/instructor/courses/delete/{{course.id}}', '{{course.courseCode}}')">Delete</button>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-                                    {% endfor %}
-
-                               
-
-
-                                   
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-
-                        <hr class="mt-4">
-
+                                 </select>
+    
+                                <select name='semester' class='font-bold border-[1px] border-[#077105] px-[15px] py-[10px] rounded-md'>
+                                    <option value="first">First</option>
+                                    <option value="second">Second</option>
+                                </select>
+    
+                                <button class='bg-[#077105] text-[#fff] px-[15px] py-[10px] hover:bg-[#fff] hover:text-[#077105] hover:border-[1px] hover:border-[#077105]'>Search</button>
+                            </form>
                         
                     </div>
                     
@@ -388,8 +326,8 @@
 
 
     <div class="create_programme">
-        <form method="post" action="/instructor/courses/">
-          {% csrf_token %}
+        <form method="post" action="/admin/programme/">
+          <!-- {% csrf_token %} -->
 
           <h4 class="mb-8 text-[23px] ml-5 text-red-700">Create</h1>
           <input
@@ -420,17 +358,16 @@
             placeholder="Course Status"
           />
 
-          <div class="flex flex-col mb-[60px] w-[100%] h-[300px] overflow-y-scroll">
-            
-            {% for p in programmes %}
-                <div class="flex flex-row">
-                    <input type="checkbox" data-unit="3" value="{{p.id}}" name="programmes" id="" class="course-checkbox">
-                    <label class="" for="">{{p.name}}</label>
-                </div>
-            {% endfor %}
-           
+          <div class="programmes">
+            <div class="">
+                <input type="checkbox" name="" id="">
+            <span class=""></span>
+            </div>
 
-
+            <div class="">
+                <input type="checkbox" name="" id="">
+            <span class=""></span>
+            </div>
 
           </div>
 
@@ -448,7 +385,7 @@
           </select>
 
 
-          {% comment %} <input type="number" name="programme_duration" placeholder="duration" /> {% endcomment %}
+          <input type="number" name="programme_duration" placeholder="duration" />
          
   
           
@@ -465,76 +402,19 @@
   
 
     <div class="update_programme">
-        <form method="post" action="/instructor/courses/update/">
-          {% csrf_token %}
+        <form method="post" action="/admin/programme/">
+          <!-- {% csrf_token %} -->
 
           <h4 class="mb-8 text-[23px] ml-5 text-red-700">Update</h1>
           <input
-            id="updateCourseTitleInput"
+            id="modalNameInput"
             type="text"
-            name="course_title"
-            value="introduction to biochemistry"
-            placeholder="Course Title"
+            name="programme_name"
+            value="Biochemistry"
+            
           />
-
-          <input
-            id="updateCourseIdInput"
-            type="text"
-            name="course_id"
-            hidden
-            value="11111111"
-          />
-
-          <input
-            id="updateCourseCodeInput"
-            type="text"
-            name="course_code"
-            value="bch201"
-            placeholder="Course Code"
-          />
-
-          <input
-            id="updateCourseUnitInput"
-            type="number"
-            name="course_unit"
-            placeholder="Course Unit"
-            value="3"
-          />
-
-          <input
-            id="updateCourseStatusInput"
-            type="text"
-            name="course_status"
-            placeholder="Course Status"
-            value="C"
-          />
-
-          <div class="flex flex-col mb-[60px] w-[100%] h-[300px] overflow-y-scroll">
-            {% for p in programmes %}
-                <div class="flex flex-row">
-                    <input type="checkbox" data-unit="3" value="{{p.id}}" name="programmes" id="" class="course-checkbox">
-                         
-                    <label class="" for="">{{p.name}}</label>
-                </div>
-            {% endfor %}
-
-
-
-          </div>
-
-
-          <select name="level" id="updateCourseLevelInput">
-            <option value="100" class="">100 Level</option>
-            <option value="200" class="">200 Level</option>
-            <option value="300" class="">300 Level</option>
-            <option value="400" class="">400 Level</option>
-          </select>
-
-          <select name="semester" id="updateCourseSemesterInput">
-            <option value="first" class="">First Semester</option>
-            <option value="second" class="">Second Semester</option>
-          </select>
-
+          <input type="number"  value="4" name="programme_duration" placeholder="duration" />
+         
   
           
           <button>submit</button>
@@ -542,7 +422,7 @@
         <button
           id="cancelNewStock"
           class="cancel_btn"
-          onclick="closeCourseUpdateModal()"
+          onclick="closeUpdateModal()"
         >
           cancel
         </button>
@@ -562,11 +442,9 @@
         </div>
       </div>
 
-
-    <script src="{% static 'js/admin_script.js' %}" type="text/javascript">
-
+    <script src="./admin_script.js" type="text/javascript">
         
+
     </script>
-    
 </body>
 </html>

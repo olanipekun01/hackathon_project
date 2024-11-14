@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from .forms import UserSignupForm, StudentSignupForm, InstructorSignupForm
 from .models import *
+from django.db.models import Q
 import uuid
 import random
 import string
@@ -1021,5 +1022,68 @@ def eachCourse(request, id):
             redirect(f"/instructor/courses/each/{id}/")
     return render(request, 'admin/each_course.html', {'course': course, "department": instructor.department, 'session': session})
 
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def registeredStudentSearchDashboard(request):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user)
+        session = Session.objects.all()
+        if request.method == "POST":
+            matricNo = request.POST["matricNo"]
+            sess = request.POST["session"]
+            semes = request.POST["semester"]
+
+            if sess != "" and semes != "" and matricNo != "":
+                sess = get_object_or_404(Session, year=sess)
+                semes = get_object_or_404(Semester, name=semes)
+            messages.info(request, f'Fields cannot be empty!')
+            redirect(f"instructor/student/search/")
+
+
+    return render(request, 'admin/student_management_search.html', {"department": instructor.department, 'session': session})
+
+
+@login_required
+@user_passes_test(is_instructor, login_url='/404')
+def registeredStudentManagementDashboard(request):
+    if request.user.is_authenticated:
+        user = request.user
+        instructor = get_object_or_404(Instructor, user=user)
+        current_session = Session.objects.filter(is_current=True).first()
+        
+        if request.method == "POST":
+            matricNo = request.POST["matricNo"].strip()
+            if matricNo != "":
+                try:
+                    student = Student.objects.all().filter(Q(matricNumber=matricNo) | Q(jambNumber=matricNo), department=instructor.department)
+                    if student.exists():
+                        stu = student.first()
+                        registers = Registration.objects.all().filter(student=get_object_or_404(Student, matricNumber=stu.matricNumber))
+                        reg_levels = []
+                        for x in registers:
+                            reg_levels.append(x.level.name)
+                        course_levels.sort(key=int)
+                        course_levels = list(set(course_levels))
+                        
+                        return render(request, 'admin/student_dashboard.html', {"department": instructor.department, 'student': stu, 'registers': registers})
+                except:
+                    messages.info(request, f'Student not available')
+                    return redirect("/instructor/student/management/")
+            messages.info(request, f'Field cannot be empty!')
+            redirect(f"/instructor/student/management/")
+
+    return render(request, 'admin/student_dashboard.html', {"department": instructor.department, 'curr_sess': current_session})
+
 def F404(request):
+    
     return render(request, "admin/404.html")
+
+
+def set_current_session(session_id):
+    # Set all sessions to not current
+    Session.objects.all().update(is_current=False)
+    # Set the specified session as current
+    session = Session.objects.get(id=session_id)
+    session.is_current = True
+    session.save()

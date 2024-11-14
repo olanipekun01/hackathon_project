@@ -35,6 +35,8 @@ class Session(models.Model):
 
     def __str__(self):
         return self.year
+    
+    
 
 class College(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
