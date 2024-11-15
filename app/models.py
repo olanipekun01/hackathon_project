@@ -3,7 +3,9 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser
 import uuid
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils.timezone import now
 
 
 
@@ -161,6 +163,7 @@ class Registration(models.Model):
     registration_date = models.DateField(auto_now_add=True)
     passed = models.BooleanField(default=False)
     carried_over = models.BooleanField(default=False)
+    # level = 
 
     # approved = models.BooleanField(blank = True, null=True)
     # approved_by = models.ForeignKey(Instructor, on_delete=models.CASCADE)
@@ -177,3 +180,19 @@ class confirmRegister(models.Model):
     registration_date = models.DateField(auto_now_add=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
 
+@receiver(post_save, sender=Student)
+def create_enrollment_for_student(sender, instance, created, **kwargs):
+    if created:  # Check if it's a new Student instance
+        try:
+            # Get the current session
+            current_session = Session.objects.get(is_current=True)
+
+            # Create an Enrollment entry for the student
+            Enrollment.objects.create(
+                student=instance,
+                session=current_session,
+                enrolled_date=now()
+            )
+        except Session.DoesNotExist:
+            # Handle case where no current session exists
+            print("No current session found for enrollment.")
