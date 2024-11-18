@@ -1,0 +1,84 @@
+{% extends './layout.html' %} {% load static %} {% block style %}
+<style>
+	.minor-drop-shadow {
+		box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1),
+			0px 3px 3px rgba(0, 0, 0, 0.09), 0px 7px 4px rgba(0, 0, 0, 0.05),
+			0px 12px 5px rgba(0, 0, 0, 0.01), 0px 19px 5px rgba(0, 0, 0, 0);
+	}
+</style>
+{% endblock %} {% block content %}
+
+<section class="flex flex-row gap-12 justify-between">
+	<button
+		class="flex-1 font-medium tranisition-all duration-150"
+		id="login-page--button">
+		Login
+	</button>
+	<button
+		class="flex-1 font-medium tranisition-all duration-150"
+		id="reset-password-page--button">
+		Reset Password
+	</button>
+</section>
+
+<section id="login--component">{% include './login.html'%}</section>
+<section id="reset-password--component">
+	{% include './reset-password.html'%}
+</section>
+
+{% endblock %} {%block js %}
+<script>
+	const login_component = document.getElementById("login--component");
+	const reset_password_component = document.getElementById(
+		"reset-password--component"
+	);
+
+	const login_page_button = document.getElementById("login-page--button");
+	const reset_password_page_button = document.getElementById(
+		"reset-password-page--button"
+	);
+	const styles = {
+		active_button: [
+			"minor-drop-shadow",
+			"bg-fuchsia-800",
+			"text-white",
+			"rounded-md",
+			"py-2",
+		],
+		deactivated_button: ["text-zinc-500"],
+	};
+
+	const updateButtons = (page) => {
+		if (page === "login") {
+			reset_password_page_button.classList.remove(
+				...styles.active_button
+			);
+			login_page_button.classList.add(...styles.active_button);
+		} else {
+			reset_password_page_button.classList.add(...styles.active_button);
+			login_page_button.classList.remove(...styles.active_button);
+		}
+	};
+
+	document.addEventListener("DOMContentLoaded", () => {
+		login_component.style.display = "block";
+		reset_password_component.style.display = "none";
+
+		updateButtons("login");
+	});
+
+	login_page_button.addEventListener("click", () => {
+		login_component.style.display = "block";
+		reset_password_component.style.display = "none";
+
+		updateButtons("login");
+	});
+
+	reset_password_page_button.addEventListener("click", () => {
+		reset_password_component.style.display = "block";
+		login_component.style.display = "none";
+
+		updateButtons("reset_password");
+	});
+</script>
+{% endblock %}

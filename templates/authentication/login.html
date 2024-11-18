@@ -1,0 +1,70 @@
+{% extends './layout.html' %} {% load static %} {% block content %}
+<div class="w-[500px]">
+	<section
+		class="grid minor-drop-shadow place-items-center rounded-md border-1 mt-2 border-zinc-300 py-8 px-4 bg-white">
+		<img src="{% static "./assets/achivers_logo.png" %}" width="120"
+		height="183.24" alt="Logo" />
+		<h1 class="font-semibold text-lg">Login to Your Account</h1>
+		<p class="text-zinc-500 text-center text-sm">
+			Enter your student ID and password to access the portal.
+		</p>
+
+		<section class="mt-8 px-2 w-full">
+			<div class="flex flex-col gap-1 w-full">
+				<label class="text-sm font-medium gap-1" for="student_id"
+					>Student ID</label
+				>
+				<input
+					class="border-1 hover:border-1 rounded-md p-2 outline-none"
+					type="text"
+					name="student_id"
+					placeholder="Enter your student ID"
+					id="login-student_id" />
+			</div>
+			<div class="flex flex-col gap-1 w-full">
+				<label class="text-sm font-medium gap-1" for="student_password"
+					>Password</label
+				>
+				<div
+					class="border-1 items-center gap-2 border-zinc-300 rounded-md p-2 flex flex-row">
+					<input
+						type="password"
+						class="w-full border-none outline-none"
+						name="student_password"
+						id="login-student_password"
+						placeholder="Password" />
+					<svg
+						width="20"
+						height="21"
+						viewBox="0 0 20 21"
+						fill="none"
+						class="cursor-pointer"
+						xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10 13C10.663 13 11.2989 12.7366 11.7678 12.2678C12.2366 11.7989 12.5 11.163 12.5 10.5C12.5 9.83696 12.2366 9.20107 11.7678 8.73223C11.2989 8.26339 10.663 8 10 8C9.33696 8 8.70107 8.26339 8.23223 8.73223C7.76339 9.20107 7.5 9.83696 7.5 10.5C7.5 11.163 7.76339 11.7989 8.23223 12.2678C8.70107 12.7366 9.33696 13 10 13Z"
+							fill="black" />
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M1.10209 10.0392C2.34209 6.31333 5.85625 3.625 10.0004 3.625C14.1421 3.625 17.6546 6.31083 18.8963 10.0333C18.9963 10.335 18.9963 10.66 18.8963 10.9608C17.6571 14.6867 14.1421 17.375 9.99875 17.375C5.85709 17.375 2.34375 14.6892 1.10292 10.9667C1.00271 10.6656 1.00188 10.3402 1.10209 10.0392ZM14.3746 10.5C14.3746 11.6603 13.9136 12.7731 13.0932 13.5936C12.2727 14.4141 11.1599 14.875 9.99959 14.875C8.83926 14.875 7.72647 14.4141 6.90599 13.5936C6.08552 12.7731 5.62459 11.6603 5.62459 10.5C5.62459 9.33968 6.08552 8.22688 6.90599 7.40641C7.72647 6.58594 8.83926 6.125 9.99959 6.125C11.1599 6.125 12.2727 6.58594 13.0932 7.40641C13.9136 8.22688 14.3746 9.33968 14.3746 10.5Z"
+							fill="black" />
+					</svg>
+				</div>
+			</div>
+		</section>
+
+		<section class="mt-4 w-full">
+			<button
+				class="w-full bg-fuchsia-800 py-2 rounded-md font-semibold text-white">
+				Login
+			</button>
+			<p class="text-zinc-400 text-sm w-full text-center">
+				Don’t have an account?
+				<span class="text-zinc-700 font-medium cursor-pointer"
+					>Contact an Administrator</span
+				>
+			</p>
+		</section>
+	</section>
+</div>
+{% endblock %}

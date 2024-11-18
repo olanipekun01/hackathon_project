@@ -75,7 +75,7 @@ class Student(models.Model):
     college = models.ForeignKey(College, on_delete=models.CASCADE,  null=True, default=None)
     department = models.ForeignKey(Department, on_delete=models.CASCADE,  null=True, default=None)
     programme = models.ForeignKey(Programme, on_delete=models.CASCADE,  null=True, default=None)
-    entrySession = models.ManyToManyField(Session, through='Enrollment', null=True, default=None)
+    entrySession = models.ManyToManyField(Session, through='Enrollment', default=None)
     currentSession = models.CharField(blank=True, null=True, max_length=20)
     primaryEmail = models.CharField(blank=True, null=True, max_length=120)
     studentEmail = models.CharField(blank=True, null=True, max_length=120)

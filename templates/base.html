@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<title>Student Dashboard {% block title %} {% endblock %}</title>
+		<link rel="stylesheet" href="{% static 'styles.css' %}" />
+		{% block style %} {% endblock %}
+	</head>
+	<body class="bg-[#F3F4F6] w-screen h-screen p-4 font-[GeistMono]">
+		{% block body %} {% endblock %}
+	</body>
+
+	{% block js %} {% endblock %}
+</html>

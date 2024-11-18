@@ -630,7 +630,7 @@ def login_view(request):
 
         return render(request, "login.html", {"error": error_message})
 
-    return render(request, "login.html")
+    return render(request, "./authentication/index.html")
 
 
 @login_required
