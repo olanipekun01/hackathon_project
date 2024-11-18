@@ -1098,42 +1098,62 @@ def registeredStudentManagementDashboard(request):
         if request.method == "POST":
             matricNo = request.POST["matricNo"].strip()
             if matricNo != "":
-                try:
-                    student = Student.objects.all().filter(Q(matricNumber=matricNo) | Q(jambNumber=matricNo), department=instructor.department)
-                    if student.exists():
-                        enrollment = Enrollment.objects.filter(student=student).order_by('enrolled_date').first()
-                        if not enrollment:
-                            # Handle case where the student has no enrollment record
-                            context = {'student': student, 'message': 'No enrollment record found for this student.'}
-                            return render(request, 'admin/student_dashboard.html', context)
-                            
-                        enrollment_year = int(enrollment.session.year.split('/')[0])
-
-                        # Query all registrations for the student and annotate each session with the calculated level
-                        registrations = Registration.objects.filter(student=student).select_related('session')
+                # try:
+                student = Student.objects.all().filter(Q(matricNumber=matricNo) | Q(jambNumber=matricNo), department=instructor.department).first()
+                print('students here', student)
+                if student:
+                    
+                    enrollment = Enrollment.objects.filter(student=student).order_by('enrolled_date').first()
+                    
+                    if not enrollment:
+                        # Handle case where the student has no enrollment record
+                        messages.info(request, f'No enrollment found!')
+                        redirect(f"/instructor/student/management/")
                         
-                        # Calculate level for each session
-                        sessions_and_levels = []
-                        for registration in registrations:
-                            session_year = int(registration.session.year.split('/')[0])
-                            # Calculate the difference in years
-                            years_since_enrollment = session_year - enrollment_year
-                            # Calculate the level, assuming the student starts at Level 100 and progresses yearly
-                            current_level = 100 + (years_since_enrollment * 100)
-                            
-                            sessions_and_levels.append({
-                                'session': registration.session.year,
-                                'level': current_level,
-                                'courses': registration.course,  # Add any course details if necessary
-                            })
+                    enrollment_year = int(enrollment.session.year.split('/')[0])
+                    
+                    # Query all registrations for the student and annotate each session with the calculated level
+                    registrations = Registration.objects.filter(student=student).select_related('session')
+                    
+                    # Calculate level for each session
+                    sessions_and_levels = []
+                    for registration in registrations:
+                        session_year = int(registration.session.year.split('/')[0])
+                        # Calculate the difference in years
+                        years_since_enrollment = session_year - enrollment_year
+                        # Calculate the level, assuming the student starts at Level 100 and progresses yearly
+                        current_level = 100 + (years_since_enrollment * 100)
+                        
+                        sessions_and_levels.append({
+                            'session': registration.session.year,
+                            'level': current_level,
+                            'courses': registration.course,  # Add any course details if necessary
+                        })
 
-                            context = {
-                                'student': student,
-                                'sessions_and_levels': sessions_and_levels,
-                            }
-                except:
-                    messages.info(request, f'Student not available')
-                    return redirect(f"/instructor/student/management/")
+                    unique_sessions = sorted({entry['session'] for entry in sessions_and_levels})
+                    
+                    print('unique_sessions', unique_sessions )
 
+                    unique_levels = sorted({entry['level'] for entry in sessions_and_levels})
 
+                    print('unique_levels', unique_levels )
+
+                    duration = 0
+                    if len(unique_levels) == len(unique_sessions):
+                        duration = len(unique_levels)
+                    
+                    context = {
+                        'student': student,
+                        'sessions_and_levels': sessions_and_levels,
+                    }
+
+                    
+                    return render(request, 'admin/student_dashboard.html', {"department": instructor.department, 'curr_sess': current_session, 'student': student,
+                        'sessions_and_levels': sessions_and_levels, 'unique_sessions': unique_sessions, 'unique_levels': unique_levels, 'duration':duration})
+                # except:
+                #     messages.info(request, f'Student not available')
+                #     return redirect(f"/instructor/student/management/")
+
+            messages.info(request, f'Field cannot be empty!')
+            redirect(f"/instructor/student/management/")
     return render(request, 'admin/student_dashboard.html', {"department": instructor.department, 'curr_sess': current_session})
