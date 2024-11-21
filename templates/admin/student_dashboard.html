@@ -1,5 +1,6 @@
 {% load static %}
 {% load custom_tags %}
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -364,6 +365,7 @@
 
 
                     
+                    {% if duration %}
                     <div class="mt-10">
                         <h4 class="text-[22px]">Registered courses</h4>
                     </div>
@@ -372,9 +374,9 @@
                         {% for i in duration|custom_range %}
                         <div class="">
                             <div class="flex flex-row gap-9">
-                                <h3 class="level text-[18px] text-[#077105] font-bold">{{ session_info.level }} Level</h3>
+                                <h3 class="level text-[18px] text-[#077105] font-bold">{{ unique_levels|get_item:i  }} Level</h3>
 
-                                <span class="">{{ session_info.session }}</span>
+                                <span class="">{{ unique_sessions|get_item:i }}</span>
                             </div>
 
                             
@@ -384,18 +386,18 @@
                                     <span class="">Total Registerred Unit: 24</span>
                                 </div>
                                 <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
-                                    {% for course in courses %}
-                                        {% if course.level == i and course.semester.name == 'second' %}
+                                    {% for data in sessions_and_levels %}
+                                        {% if  data.level == unique_levels|get_item:i and data.courses.semester.name == 'first' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <h5 class="font-bold text-[15px]">BCH 101</h5>
+                                                <h5 class="font-bold text-[15px]">{{data.courses.courseCode}}</h5>
 
-                                                <span class="text-[#077105] font-bold">C</span>
+                                                <span class="text-[#077105] font-bold">{{data.courses.status}}</span>
                                             </div>
-                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
+                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{data.courses.title}}</p>
                                             
                                             <div class="mt-3 flex flex-row justify-between items-center">
-                                                <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
+                                                <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="{% static './assets/bx-edit.svg' %}" alt=""></button>
 
                                                 <div class="flex flex-row gap-3">
                                                     <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
@@ -406,285 +408,14 @@
                                             <div class="flex justify-between mt-4 text-[11px] font-bold">
                                                 
                                                 <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                                <span class="">3</span>
+                                                <span class="">{{data.course.unit}}</span>
                                             </div>
                                         </div>
                                         {% endif %}
                                     {% endfor %}
 
 
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
+                                    
 
                                
 
@@ -700,303 +431,34 @@
                                     <span class="">Total Registerred Unit: 24</span>
                                 </div>
                                 <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
+                                    {% for data in sessions_and_levels %}
+                                        {% if  data.level == unique_levels|get_item:i and data.courses.semester.name == 'second' %}
+                                        <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
+                                            <div class="flex flex-row justify-between">
+                                                <h5 class="font-bold text-[15px]">{{data.courses.courseCode}}</h5>
 
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
+                                                <span class="text-[#077105] font-bold">{{data.courses.status}}</span>
+                                            </div>
+                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{data.courses.title}}</p>
+                                            
+                                            <div class="mt-3 flex flex-row justify-between items-center">
+                                                <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="{% static './assets/bx-edit.svg' %}" alt=""></button>
 
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
+                                                <div class="flex flex-row gap-3">
+                                                    <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
+                                                    <span class="text-[12px] font-bold">A</span>
+                                                </div>
+                                            </div>
 
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
+                                            <div class="flex justify-between mt-4 text-[11px] font-bold">
+                                                
+                                                <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
+                                                <span class="">{{data.course.unit}}</span>
                                             </div>
                                         </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
-                                        <div class="flex flex-row justify-between">
-                                            <h5 class="font-bold text-[15px]">BCH 101</h5>
-
-                                            <span class="text-[#077105] font-bold">C</span>
-                                        </div>
-                                        <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>Course Title Course Title Course Title Course Title Course Title</p>
-                                        
-                                        <div class="mt-3 flex flex-row justify-between items-center">
-                                            <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="./bx-edit.svg" alt=""></button>
-
-                                            <div class="flex flex-row gap-3">
-                                                <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
-                                                <span class="text-[12px] font-bold">A</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex justify-between mt-4 text-[11px] font-bold">
-                                            
-                                            <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                            <span class="">3</span>
-                                        </div>
-                                    </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
 
                                
 
@@ -1016,8 +478,7 @@
                         
                     </div>
                     
-                    
-                    
+                    {% endif %}
                 </div>
             </div>
 

@@ -179,6 +179,7 @@ class confirmRegister(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE,  null=True, default=None)
     registration_date = models.DateField(auto_now_add=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
+    totalUnits = models.CharField(max_length=100, blank=True, null=True)
 
 @receiver(post_save, sender=Student)
 def create_enrollment_for_student(sender, instance, created, **kwargs):

@@ -193,6 +193,7 @@
                                     </tr> {% endcomment %}
                                     <input type="hidden" name="sess" value="{{ sess }}">
                                     <input type="hidden" name="semes" value="{{ semes }}">
+                                    <input type="text" id="inputTotalUnits" name="totalUnit" value="{{ semes }} ">
                                     {% if carryover %}
                                         {% for co in carryover %}
                                             <tr class='tbodytr'>
@@ -250,6 +251,7 @@
 
         const courseCheckboxes = document.querySelectorAll('.course-checkbox');
         const totalUnitsDisplay = document.getElementById('totalUnits');
+        const inputTotalUnits = document.getElementById('inputTotalUnits');
         const warningMessage = document.getElementById('warning');
 
         function updateUnits() {
@@ -264,6 +266,7 @@
             });
 
             totalUnitsDisplay.textContent = totalUnits;
+            inputTotalUnits.value = totalUnits;
             
             if (totalUnits > maxUnits) {
                 warningMessage.style.display = 'block';

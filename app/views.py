@@ -436,6 +436,7 @@ def courseMain(request):
         )  # Assuming departments are selected in a form
         sess = request.POST["sess"]
         semes = request.POST["semes"]
+        totalUnit = request.POST["totalUnit"]
         # print("sess", session, "semes", semester)
         for id in courses:
             # print('course id', id)
@@ -491,6 +492,7 @@ def courseMain(request):
             session=get_object_or_404(Session, year=sess),
             semester=get_object_or_404(Semester, name=semes),
             level=get_object_or_404(Level, name=student.currentLevel),
+            totalUnits = totalUnit,
         )
 
         confirmReg.save()
@@ -1132,11 +1134,11 @@ def registeredStudentManagementDashboard(request):
 
                     unique_sessions = sorted({entry['session'] for entry in sessions_and_levels})
                     
-                    print('unique_sessions', unique_sessions )
+                    
 
                     unique_levels = sorted({entry['level'] for entry in sessions_and_levels})
 
-                    print('unique_levels', unique_levels )
+                    print('sessions_and_levels', sessions_and_levels )
 
                     duration = 0
                     if len(unique_levels) == len(unique_sessions):
