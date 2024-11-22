@@ -387,17 +387,17 @@
                                 </div>
                                 <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
                                     {% for data in sessions_and_levels %}
-                                        {% if  data.level == unique_levels|get_item:i and data.courses.semester.name == 'first' %}
+                                        {% if  data.level == unique_levels|get_item:i and data.registration.course.semester.name == 'first' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <h5 class="font-bold text-[15px]">{{data.courses.courseCode}}</h5>
+                                                <h5 class="font-bold text-[15px]">{{data.registration.course.courseCode}}</h5>
 
-                                                <span class="text-[#077105] font-bold">{{data.courses.status}}</span>
+                                                <span class="text-[#077105] font-bold">{{dataregistration.course.status}}</span>
                                             </div>
-                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{data.courses.title}}</p>
+                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{data.registration.course.title}}</p>
                                             
                                             <div class="mt-3 flex flex-row justify-between items-center">
-                                                <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="{% static './assets/bx-edit.svg' %}" alt=""></button>
+                                                <button onclick="handleGrade('{{data.registration.id}}', '{{bch201}}')"><img class="w-[15px]" src="{% static './assets/bx-edit.svg' %}" alt=""></button>
 
                                                 <div class="flex flex-row gap-3">
                                                     <div class="text-[12px]"><span class="font-bold">Grade:</span> <i class="">00</i></div>
@@ -408,7 +408,7 @@
                                             <div class="flex justify-between mt-4 text-[11px] font-bold">
                                                 
                                                 <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                                <span class="">{{data.course.unit}}</span>
+                                                <span class="">{{data.registration.course.unit}}</span>
                                             </div>
                                         </div>
                                         {% endif %}
@@ -432,14 +432,14 @@
                                 </div>
                                 <div class="flex flex-row gap-4 mt-5  border-y-[1px] border-[#000] px-[30px] py-[10px] overflow-x-scroll">
                                     {% for data in sessions_and_levels %}
-                                        {% if  data.level == unique_levels|get_item:i and data.courses.semester.name == 'second' %}
+                                        {% if  data.level == unique_levels|get_item:i and data.registration.course.semester.name == 'second' %}
                                         <div class="card min-w-[140px] rounded-md border-[0.5px] border-[#077105] px-[5px] py-[10px]">
                                             <div class="flex flex-row justify-between">
-                                                <h5 class="font-bold text-[15px]">{{data.courses.courseCode}}</h5>
+                                                <h5 class="font-bold text-[15px]">{{data.registration.course.courseCode}}</h5>
 
-                                                <span class="text-[#077105] font-bold">{{data.courses.status}}</span>
+                                                <span class="text-[#077105] font-bold">{{data.registration.course.status}}</span>
                                             </div>
-                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{data.courses.title}}</p>
+                                            <p class="mt-3 text-[10px]"><span class="text-12px font-bold">Title: </span>{{data.registration.course.title}}</p>
                                             
                                             <div class="mt-3 flex flex-row justify-between items-center">
                                                 <button onclick="handleGrade('/grade/id:0292929', 'bch201')"><img class="w-[15px]" src="{% static './assets/bx-edit.svg' %}" alt=""></button>
@@ -453,7 +453,7 @@
                                             <div class="flex justify-between mt-4 text-[11px] font-bold">
                                                 
                                                 <button class="text-red-700" onclick="handleDeletePopOut('/delete/id:0292929', 'biochemistry')">Delete</button>
-                                                <span class="">{{data.course.unit}}</span>
+                                                <span class="">{{data.registration.course.unit}}</span>
                                             </div>
                                         </div>
                                         {% endif %}
@@ -599,7 +599,7 @@
         </div>
       </div>
 
-    <script src="./admin_script.js" type="text/javascript">
+    <script src="{% static './admin_script.js' %}" type="text/javascript">
         
 
     </script>

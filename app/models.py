@@ -155,6 +155,11 @@ class Instructor(models.Model):
         return self.name
 
 class Registration(models.Model):
+    GRADE_TYPE_CHOICES = (
+        ('passed', 'passed'),
+        ('failed', 'failed'),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=True, default=None)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=True, default=None)
@@ -163,7 +168,8 @@ class Registration(models.Model):
     registration_date = models.DateField(auto_now_add=True)
     passed = models.BooleanField(default=False)
     carried_over = models.BooleanField(default=False)
-    # level = 
+    grade = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
+    grade_type = models.CharField(max_length=20, choices=GRADE_TYPE_CHOICES, null=True, default=None)
 
     # approved = models.BooleanField(blank = True, null=True)
     # approved_by = models.ForeignKey(Instructor, on_delete=models.CASCADE)

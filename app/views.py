@@ -1129,7 +1129,7 @@ def registeredStudentManagementDashboard(request):
                         sessions_and_levels.append({
                             'session': registration.session.year,
                             'level': current_level,
-                            'courses': registration.course,  # Add any course details if necessary
+                            'registration': registration,  # Add any course details if necessary
                         })
 
                     unique_sessions = sorted({entry['session'] for entry in sessions_and_levels})
